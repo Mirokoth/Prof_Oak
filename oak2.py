@@ -40,7 +40,8 @@ async def on_member_join(member):
 @client.event
 async def on_message(message):
     if message.content.startswith('!help'):
-         await client.send_message(message.channel, "To assign your self to a team type: \n!role @teamname\nFor example: \n!role @Instinct\n\nThe team colour should come up when done correctly")
+        _help = '**Assigning team:**\n!role @teamname\n\n**Finding a Pokemon:**\n!find Pokemon_Name\n\n**Server status:**\n!status\n\nMore to come! If you have any feautre requests message @Mirokoth'
+        await client.send_message(message.channel, '{}'.format(_help))
 
     if message.content.startswith('!find'):
             await client.send_message(message.channel, 'Searching...\n')
