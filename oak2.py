@@ -40,7 +40,7 @@ async def on_member_join(member):
 @client.event
 async def on_message(message):
     if message.content.startswith('!help'):
-        _help = '**Assigning team:**\n!role @teamname\n\n**Finding a Pokemon:**\n!find Pokemon_Name\n\n**Server status:**\n!status\n\nMore to come! If you have any feautre requests message @Mirokoth'
+        _help = '**Assigning team:**\n!role @teamname\n\n**Finding a Pokemon:**\n!find Pokemon_Name\n\n**Server status:**\n!status\n\nMore to come! If you have any feature requests message @Mirokoth'
         await client.send_message(message.channel, '{}'.format(_help))
 
     if message.content.startswith('!find'):
@@ -50,7 +50,7 @@ async def on_message(message):
             scope = ['https://spreadsheets.google.com/feeds']
             credentials = ServiceAccountCredentials.from_json_keyfile_name('C:\\Users\\rhyse\\Google Drive\\Projects\\Prof-Oak\\Google_Auth.json', scope)
             gc = gspread.authorize(credentials)
-            sheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1Sbjy1vp-W64as2VRJWIrShwFAO3D9Jf9xWqLILt7dJE/edit#gid=0')
+            sheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1xGH7HNNZvrOlAd1U1RogF4hlMlmN-gSFbeBpZ0gpnBY/edit#gid=0')
             wks = sheet.get_worksheet(0)
             _term = message.content.replace('!find ', '').title()
             #_term = _term.title()
@@ -58,7 +58,7 @@ async def on_message(message):
                 _result = wks.find(_term)
             except gspread.exceptions.CellNotFound as e:
                 await client.send_message(message.channel, 'Sorry but we could not find {}. Please confirm name'.format(_term))
-            _output = wks.cell(_result.row, _result.col+3).value
+            _output = wks.cell(_result.row, _result.col+1).value
             _output = _output.replace(',', '\n')
             print(_term)
 
