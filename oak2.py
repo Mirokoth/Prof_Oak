@@ -47,9 +47,12 @@ async def on_message(message):
 
 
     if message.content.startswith('!Role') or message.content.startswith('!role'):
-        #print(message.role_mentions['name'])
-        role_name = str(message.role_mentions)
         _tmp_count = 0
+        for role in message.role_mentions:
+            if 'Admin' in role.name:
+                _tmp_count =+ 5
+                await client.send_message(message.channel, 'http://i.imgur.com/MqxSRTm.jpg')
+
         for role in message.author.roles:
             if 'Mystic' in role.name:
                 _tmp_count =+ 1
@@ -57,12 +60,15 @@ async def on_message(message):
                 _tmp_count =+ 1
             elif 'Instinct' in role.name:
                 _tmp_count =+ 1
+
+        if _tmp_count >= 5:
+                await client.send_message(message.channel, 'Nice Try')
         if _tmp_count == 0:
                 await client.add_roles(message.author, message.role_mentions[0])
                 await client.send_message(message.channel, 'Welcome to team {}!'.format(message.role_mentions[0]))
         else:
+            print(_tmp_count)
             await client.send_message(message.channel, 'It looks like you already have a team.\nIf you think this is an error please let us know')
-
 
 
     if message.content.startswith('!status'):
@@ -77,7 +83,7 @@ async def on_message(message):
             _soup_li = _soup_page.find_all("li", "white")
             if 'fa fa-check' in str(_soup_li[0]):
                 await client.send_message(message.channel, 'Australian server: ONLINE ')
-                print("Server up")
+                print("Running a server check - Server up")
             else:
                 await client.send_message(message.channel, 'Australian server: OFFLINE ')
                 print('server offline')
