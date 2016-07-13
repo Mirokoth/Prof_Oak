@@ -73,7 +73,7 @@ async def on_message(message):
                             timeout=120)
             _page.text
             _page_cont = _page.content
-            _soup_page = BeautifulSoup(_page_cont)
+            _soup_page = BeautifulSoup(_page_cont, "html.parser")
             _soup_li = _soup_page.find_all("li", "white")
             if 'fa fa-check' in str(_soup_li[0]):
                 await client.send_message(message.channel, 'Australian server: ONLINE ')
@@ -87,4 +87,4 @@ async def on_message(message):
         await quit()
 
 
-client.run('MjAyMzI4MDc0NTU2MDE0NTky.CmYwNA.LeNT-_zri1NVa72alcFOMt4y25I')
+client.run('MjAyNjg0ODc4NjYyMTM5OTA0.Cmd-CA.rrfgsulJnqTzvz0ss9T-PzAyWgM')
