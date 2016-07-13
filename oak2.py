@@ -3,6 +3,10 @@ import sys
 import os
 import discord
 import requests
+import json
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+
 
 from bs4 import BeautifulSoup
 from discord import role
@@ -37,6 +41,28 @@ async def on_member_join(member):
 async def on_message(message):
     if message.content.startswith('!help'):
          await client.send_message(message.channel, "To assign your self to a team type: \n!role @teamname\nFor example: \n!role @Instinct\n\nThe team colour should come up when done correctly")
+
+    if message.content.startswith('!find'):
+            #teststr = "Adelaide Avenue (near Parliament House), Lake Tuggeranong, Campbell Park, COC/DFO, City, Eddison Park, National Zoo, National Museum, Hyatt Hotel, Questacon"
+            #teststr = teststr.replace(',', '\n')
+
+            son_key = json.load(open('C:\\Users\\rhyse\\Google Drive\\Projects\\Prof-Oak\\Google_Auth.json'))
+            scope = ['https://spreadsheets.google.com/feeds']
+            credentials = ServiceAccountCredentials.from_json_keyfile_name('C:\\Users\\rhyse\\Google Drive\\Projects\\Prof-Oak\\Google_Auth.json', scope)
+            gc = gspread.authorize(credentials)
+            sheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1Sbjy1vp-W64as2VRJWIrShwFAO3D9Jf9xWqLILt7dJE/edit#gid=0')
+            wks = sheet.get_worksheet(0)
+            _term = message.content.replace('!find ', '')
+            try:
+                _result = wks.find(_term)
+            except gspread.exceptions.CellNotFound as e:
+                await client.send_message(message.channel, 'Sorry but we could not find {}. Please confirm name'.format(_term))
+            _output = wks.cell(_result.row, _result.col+3).value
+            _output = _output.replace(',', '\n')
+            print(_term)
+
+            await client.send_message(message.channel, '{} can be found at:\n```\n {} \n\n Data from - https://goo.gl/cr7ErJ```'.format(_term, _output))
+
 
 
     if message.content.startswith('!roleid'):
