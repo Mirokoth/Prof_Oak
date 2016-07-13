@@ -43,8 +43,7 @@ async def on_message(message):
          await client.send_message(message.channel, "To assign your self to a team type: \n!role @teamname\nFor example: \n!role @Instinct\n\nThe team colour should come up when done correctly")
 
     if message.content.startswith('!find'):
-            #teststr = "Adelaide Avenue (near Parliament House), Lake Tuggeranong, Campbell Park, COC/DFO, City, Eddison Park, National Zoo, National Museum, Hyatt Hotel, Questacon"
-            #teststr = teststr.replace(',', '\n')
+            await client.send_message(message.channel, 'Searching...\n')
 
             son_key = json.load(open('C:\\Users\\rhyse\\Google Drive\\Projects\\Prof-Oak\\Google_Auth.json'))
             scope = ['https://spreadsheets.google.com/feeds']
@@ -52,7 +51,8 @@ async def on_message(message):
             gc = gspread.authorize(credentials)
             sheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1Sbjy1vp-W64as2VRJWIrShwFAO3D9Jf9xWqLILt7dJE/edit#gid=0')
             wks = sheet.get_worksheet(0)
-            _term = message.content.replace('!find ', '')
+            _term = message.content.replace('!find ', '').title()
+            #_term = _term.title()
             try:
                 _result = wks.find(_term)
             except gspread.exceptions.CellNotFound as e:
