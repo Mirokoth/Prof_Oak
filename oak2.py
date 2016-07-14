@@ -14,8 +14,14 @@ import pyowm
 client = discord.Client()
 _roles = []
 settings = 'C:\\Users\\rhyse\\Google Drive\\Projects\\Prof-Oak\\settings.json'
+
 with open(settings) as json_set:
     _set = json.load(json_set)
+
+poke_db = _set['poke_db']
+google_json = _set['google_json']
+help_file = _set['help_file']
+owm_api = _set['owm_api']
 
 @client.event
 async def on_ready():
@@ -62,35 +68,27 @@ async def on_message(message):
                 _term = _term.title()
                 _loud = False
 
-
             if _loud == True:
                 await client.send_message(message.channel, 'Searching...\n')
             else:
                 await client.send_message(message.author, 'Searching...\n')
 
-
-            son_key = json.load(open('C:\\Users\\rhyse\\Google Drive\\Projects\\Prof-Oak\\Google_Auth.json'))
-            scope = ['https://spreadsheets.google.com/feeds']
-            credentials = ServiceAccountCredentials.from_json_keyfile_name('C:\\Users\\rhyse\\Google Drive\\Projects\\Prof-Oak\\Google_Auth.json', scope)
-            gc = gspread.authorize(credentials)
-            sheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1xGH7HNNZvrOlAd1U1RogF4hlMlmN-gSFbeBpZ0gpnBY/edit#gid=0')
-            wks = sheet.get_worksheet(0)
-            if 'Oak' in _term:
-                await client.send_file(message.channel, 'C:\\Users\\rhyse\\Google Drive\\Projects\\Prof Oak\\Oak1.png')
-            if 'MIRO' in _term.upper() or 'KOSTA' in _term.upper():
-                await client.send_file(message.channel, 'C:\\Users\\rhyse\\Google Drive\\Projects\\Prof Oak\\nerd.jpg')
-            try:
-                _result = wks.find(_term)
-            except gspread.exceptions.CellNotFound as e:
-                await client.send_message(message.channel, 'Sorry but we could not find {}. Please confirm name'.format(_term))
-            _output = wks.cell(_result.row, _result.col+1).value
-            _output = _output.replace(',', '\n')
-            print('Someone searched for {}'.format(_term))
+            print(poke_db)
+            with open(poke_db) as _poke_db:
+                _pokemon = json.load(_poke_db)
+            _pokemon = _pokemon[_term]
+            location = ''
+            if type(_pokemon['location']) is not str:
+                for local in _pokemon['location']:
+                    location += local
+                    location += '\n'
+            if type(_pokemon['location']) is str:
+                location += _pokemon['location']
+            #location = location.replace(',', '\n')
             if _loud == True:
-                await client.send_message(message.channel, '{} can be found at:\n```\n {} \n\n Data from - https://goo.gl/cr7ErJ```'.format(_term, _output))
+                await client.send_message(message.channel, '{} can be found at:\n```\n {} \nAs well as:\n\n{}\n\n```'.format(_term, location, _pokemon['alternative']))
             else:
-                await client.send_message(message.author, '{} can be found at:\n```\n {} \n\n Data from - https://goo.gl/cr7ErJ```'.format(_term, _output))
-
+                await client.send_message(message.author, '{} can be found at:\n```\n {} \nAs well as:\n\n{}\n\n```'.format(_term, location, _pokemon['alternative']))
 
 
     if message.content.startswith('!roleid'):
@@ -118,7 +116,7 @@ async def on_message(message):
 
     if message.content.startswith('!temp'):
         """ Weather Details"""
-        owm = pyowm.OWM('c70f0e635539159ab87dc1b61f812d5d')
+        owm = pyowm.OWM(_set['owm_api'])
         _weather_location = owm.weather_at_place('Canberra,AU')
         _observation = _weather_location.get_weather()
         _observation = _observation.get_temperature('celsius')
@@ -169,4 +167,4 @@ async def on_message(message):
         await quit()
 
 
-client.run('MjAyNjg0ODc4NjYyMTM5OTA0.Cmd-CA.rrfgsulJnqTzvz0ss9T-PzAyWgM')
+client.run(_set['discord_api'])
