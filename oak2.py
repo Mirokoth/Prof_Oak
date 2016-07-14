@@ -103,6 +103,24 @@ async def on_message(message):
             _output = _output.replace(',', '\n')
             print('Someone searched for {}'.format(_term))
 
+            # print(poke_db)
+            # with open(poke_db) as _poke_db:
+            #     _pokemon = json.load(_poke_db)
+            # _pokemon = _pokemon[_term]
+            # location = ''
+            # if type(_pokemon['location']) is not str:
+            #     for local in _pokemon['location']:
+            #         location += local
+            #         location += '\n'
+            # if type(_pokemon['location']) is str:
+            #     location += _pokemon['location']
+            # #location = location.replace(',', '\n')
+            # if _loud == True:
+            #     await client.send_message(message.channel, '{} can be found at:\n```\n {} \nAs well as:\n\n{}\n\n```'.format(_term, location, _pokemon['alternative']))
+            # else:
+            #     await client.send_message(message.author, '{} can be found at:\n```\n {} \nAs well as:\n\n{}\n\n```'.format(_term, location, _pokemon['alternative']))
+            #
+
             # Send result
             await client.edit_message(tmp, '**{}** found at the following location(s):\n```\n {} \n```'.format(_term, _output.strip()))
 
@@ -134,7 +152,7 @@ async def on_message(message):
     # Command: Get Canberra weather
     if message.content.startswith('!temp'):
         """ Weather Details"""
-        owm = pyowm.OWM('c70f0e635539159ab87dc1b61f812d5d')
+        owm = pyowm.OWM(config.OWM_TOKEN)
         _weather_location = owm.weather_at_place('Canberra,AU')
         _observation = _weather_location.get_weather()
         _observation = _observation.get_temperature('celsius')
