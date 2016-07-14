@@ -12,7 +12,6 @@ from discord import role
 import pyowm
 
 client = discord.Client()
-
 _roles = []
 
 @client.event
@@ -26,14 +25,14 @@ async def on_ready():
     for server in client.servers:
         print(server.name + ' (' + server.id + ')')
         print('------')
-        """
     print('Roles')
     print('------')
     for role in server.roles:
         _roles.append(role)
         print(role.name + ' (' + role.id + ')')
     print(_roles)
-        """
+
+
 
 @client.event
 async def on_member_join(member):
