@@ -61,11 +61,9 @@ async def on_ready():
 # New Member Joins
 @client.event
 async def on_member_join(member):
-    print("new user: {}".format(member))
-    _user = str(member).split('#')
-    _user = _user[0]
-    await client.send_message(member.server, 'Welcome {}'.format(_user))
-    await client.send_message(member, 'Welcome {}!\nTo get started type **!help**'.format(_user))
+    print("new user: {} ({})".format(member.name, member.id))
+    await client.send_message(member.server, 'Welcome <@{}>!'.format(member.id))
+    await client.send_message(member, 'Welcome <@{}>!\n\nType **!help** to get started!'.format(member.id))
 
 # Message Received
 @client.event
