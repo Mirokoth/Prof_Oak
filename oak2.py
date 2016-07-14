@@ -34,7 +34,8 @@ async def on_ready():
 @client.event
 async def on_member_join(member):
     print("new {}".format(member))
-    await client.send_message(member.channel, 'Welcome {}'.format(member))
+    await client.send_message(message.server, 'Welcome {}'.format(member))
+    await client.send_message(message.member, 'Welcome {}!\nTo get started type **!help**'.format(member))
 
 @client.event
 async def on_message(message):
@@ -43,7 +44,22 @@ async def on_message(message):
         await client.send_message(message.channel, '{}'.format(_help))
 
     if message.content.startswith('!find'):
-            await client.send_message(message.channel, 'Searching...\n')
+
+            if '!find us' in message.content:
+                _term = message.content.replace('!find us ', '')
+                _term = _term.title()
+                _loud = True
+            else:
+                _term = message.content.replace('!find ', '').title()
+                _term = _term.title()
+                _loud = False
+
+
+            if _loud == True:
+                await client.send_message(message.channel, 'Searching...\n')
+            else:
+                await client.send_message(message.author, 'Searching...\n')
+
 
             son_key = json.load(open('C:\\Users\\rhyse\\Google Drive\\Projects\\Prof-Oak\\Google_Auth.json'))
             scope = ['https://spreadsheets.google.com/feeds']
@@ -51,20 +67,21 @@ async def on_message(message):
             gc = gspread.authorize(credentials)
             sheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1xGH7HNNZvrOlAd1U1RogF4hlMlmN-gSFbeBpZ0gpnBY/edit#gid=0')
             wks = sheet.get_worksheet(0)
-            _term = message.content.replace('!find ', '').title()
-            _term = _term.title()
             if 'Oak' in _term:
                 await client.send_file(message.channel, 'C:\\Users\\rhyse\\Google Drive\\Projects\\Prof Oak\\Oak1.png')
-
+            if 'MIRO' in _term.upper() or 'KOSTA' in _term.upper():
+                await client.send_file(message.channel, 'C:\\Users\\rhyse\\Google Drive\\Projects\\Prof Oak\\nerd.jpg')
             try:
                 _result = wks.find(_term)
             except gspread.exceptions.CellNotFound as e:
                 await client.send_message(message.channel, 'Sorry but we could not find {}. Please confirm name'.format(_term))
             _output = wks.cell(_result.row, _result.col+1).value
             _output = _output.replace(',', '\n')
-            print(_term)
-
-            await client.send_message(message.channel, '{} can be found at:\n```\n {} \n\n Data from - https://goo.gl/cr7ErJ```'.format(_term, _output))
+            print('Someone searched for {}'.format(_term))
+            if _loud == True:
+                await client.send_message(message.channel, '{} can be found at:\n```\n {} \n\n Data from - https://goo.gl/cr7ErJ```'.format(_term, _output))
+            else:
+                await client.send_message(message.author, '{} can be found at:\n```\n {} \n\n Data from - https://goo.gl/cr7ErJ```'.format(_term, _output))
 
 
 
@@ -118,6 +135,10 @@ async def on_message(message):
                 await client.send_message(message.channel, 'Australian server: OFFLINE ')
                 print('server offline')
 
+    if message.content.startswith('!test'):
+        await client.send_message(message.server, 'Welcome ')
+        #for role in server.roles:
+            #await client.send_message(message.channel, '{}'.format(role))
 
     if message.content.startswith('!quit'):
         await quit()
