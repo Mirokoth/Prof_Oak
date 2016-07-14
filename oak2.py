@@ -13,6 +13,9 @@ import pyowm
 
 client = discord.Client()
 _roles = []
+settings = 'C:\\Users\\rhyse\\Google Drive\\Projects\\Prof-Oak\\settings.json'
+with open(settings) as json_set:
+    _set = json.load(json_set)
 
 @client.event
 async def on_ready():
@@ -30,7 +33,6 @@ async def on_ready():
     for role in server.roles:
         _roles.append(role)
         print(role.name + ' (' + role.id + ')')
-    print(_roles)
 
 
 

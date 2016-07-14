@@ -1,0 +1,1313 @@
+{
+	"Bulbasaur": {
+		"name": "Bulbasaur",
+		"location": [
+			"Lake Tuggeranong",
+			"Belconnen Lake",
+			"Questacon",
+			"City (Bunda St",
+			"City Walk",
+			"Glebe Park)",
+			"Lyneham",
+			"Murrumbateman Village",
+			"Turner",
+			"Deakin (rarely)",
+			"Bonner",
+			"Barton",
+			"Kingston",
+			"Wanniassa"
+		],
+		"alternative": "Hatches from 2km egg"
+	},
+	"Ivysaur": {
+		"name": "Ivysaur",
+		"location": [
+			"Woden CIT",
+			"Civic (City Walk",
+			"King O'Malleys)",
+			"O'Connor Shops",
+			"Yass",
+			"Telstra Tower",
+			"Telopea Park",
+			"National Museum"
+		],
+		"alternative": "25 Bulbasaur Candy"
+	},
+	"Venusaur": {
+		"name": "Venusaur",
+		"location": [
+			"Civic (Bus Interchange)",
+			"Questacon/NLA",
+			"Gordon Adventure Park (rare)"
+		],
+		"alternative": "100 Bulbasaur Candy"
+	},
+	"Charmander": {
+		"name": "Charmander",
+		"location": [
+			"Ainslie",
+			"Bonner Oval",
+			"Red Hill Shops",
+			"Telstra Tower",
+			"Gordon Park"
+		],
+		"alternative": "Hatches from 2km egg"
+	},
+	"Charmeleon": {
+		"name": "Charmeleon",
+		"location": "Kaleen Shops",
+		"alternative": "25 Charmander Candy"
+	},
+	"Charizard": {
+		"name": "Charizard",
+		"location": [
+			"Lanyon",
+			"Mt. Majura"
+		],
+		"alternative": "100 Charmander Candy"
+	},
+	"Squirtle": {
+		"name": "Squirtle",
+		"location": [
+			"Adelaide Avenue (near Parliament House)",
+			"Lake Tuggeranong",
+			"Campbell Park",
+			"COC/DFO",
+			"City",
+			"Eddison Park",
+			"National Zoo",
+			"National Museum",
+			"Hyatt Hotel",
+			"Questacon"
+		],
+		"alternative": "Hatches from 2km egg"
+	},
+	"Wartortle": {
+		"name": "Wartortle",
+		"location": [
+			"Lake Ginninderra",
+			"Fyshwick (Capital Mens Club)",
+			"Franklin",
+			"Ngunnawal"
+		],
+		"alternative": "25 Squirtle Candy"
+	},
+	"Blastoise": {
+		"name": "Blastoise",
+		"location": "Civic (Bus Interchange Platform 9) ",
+		"alternative": "100 Squirtle Candy"
+	},
+	"Caterpie": {
+		"name": "Caterpie",
+		"location": "Everywhere",
+		"alternative": "Hatches from 2km egg"
+	},
+	"Metapod": {
+		"name": "Metapod",
+		"location": [
+			"City (Glebe Park)",
+			"Evatt Shops"
+		],
+		"alternative": "12 Caterpie Candy"
+	},
+	"Butterfree": {
+		"name": "Butterfree",
+		"location": [
+			"Ngunnawal (Mirrabei Drive)",
+			"Hawker Gardens (derro flats)"
+		],
+		"alternative": "50 Caterpie Candy"
+	},
+	"Weedle": {
+		"name": "Weedle",
+		"location": "Everywhere",
+		"alternative": "Hatches from 2km egg"
+	},
+	"Kakuna": {
+		"name": "Kakuna",
+		"location": [
+			"City (Glebe Park)",
+			"Questacon"
+		],
+		"alternative": "12 Weedle Candy"
+	},
+	"Beedrill": {
+		"name": "Beedrill",
+		"location": [
+			"CCC Greenway",
+			"Braidwood"
+		],
+		"alternative": "50 Weedle Candy"
+	},
+	"Pidgey": {
+		"name": "Pidgey",
+		"location": "Everywhere",
+		"alternative": "Hatches from 2km egg"
+	},
+	"Pidgeotto": {
+		"name": "Pidgeotto",
+		"location": [
+			"The Canberra Centre",
+			"Mawson shops",
+			"Murrumbateman Village",
+			"City",
+			"Bonner",
+			"Kingston Foreshore",
+			"Manuka (outside Coles)",
+			"Bruce"
+		],
+		"alternative": "12 Pidgey Candy"
+	},
+	"Pidgeot": {
+		"name": "Pidgeot",
+		"location": [
+			"Bonner",
+			"Manuka",
+			"Bungendore",
+			"Charnwood"
+		],
+		"alternative": "50 Pidgey Candy"
+	},
+	"Rattata": {
+		"name": "Rattata",
+		"location": "Everywhere",
+		"alternative": "Hatches from 2km egg"
+	},
+	"Raticate": {
+		"name": "Raticate",
+		"location": [
+			"Lake Ginninderra",
+			"Kingston Foreshore",
+			"ANU campus"
+		],
+		"alternative": "25 Rattata Candy"
+	},
+	"Spearow": {
+		"name": "Spearow",
+		"location": "Everywhere",
+		"alternative": "Hatches from 2km egg"
+	},
+	"Fearow": {
+		"name": "Fearow",
+		"location": [
+			"Base of mount Ainsle",
+			"Manuka Shops",
+			"Scullin Shops",
+			"top of red hill between the redhill sign gym and other gym"
+		],
+		"alternative": "50 Spearow Candy"
+	},
+	"Ekans": {
+		"name": "Ekans",
+		"location": "Everywhere",
+		"alternative": "Hatches from 5km egg"
+	},
+	"Arbok": {
+		"name": "Arbok",
+		"location": [
+			"Bonner",
+			"Black Mountain",
+			"National Museum"
+		],
+		"alternative": "50 Ekans Candy"
+	},
+	"Pikachu": {
+		"name": "Pikachu",
+		"location": [
+			"Aldi (City)",
+			"Weston Creek Post Shop",
+			"Learmonth Drive (Kambah)",
+			"Club Lime in Tuggeranong",
+			"Lyneham Wetlands",
+			"Mawson Oval",
+			"Australian War Memorial"
+		],
+		"alternative": "Hatches from 2km egg"
+	},
+	"Raichu": {
+		"name": "Raichu",
+		"location": "Chisholm",
+		"alternative": "50 Pikachu Candy"
+	},
+	"Sandshrew": {
+		"name": "Sandshrew",
+		"location": [
+			"Northbourne Avenue (Haig Park East)",
+			"Lake Tuggeranong",
+			"Old Parliment house",
+			"Black Mountain Trail"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Sandslash": {
+		"name": "Sandslash",
+		"location": "",
+		"alternative": "50 Sandshrew Candy"
+	},
+	"Nidoran(F)": {
+		"name": "Nidoran(F)",
+		"location": [
+			"Manuka",
+			"City (Glebe Park)",
+			"Bonner",
+			"Turner",
+			"Lake Burley Griffin",
+			"Kambah",
+			"Mount Ainslie",
+			"National Museum",
+			"Curtin"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Nidorina": {
+		"name": "Nidorina",
+		"location": [
+			"CCC Greenway",
+			"Murrumbateman"
+		],
+		"alternative": "25 Nidoran (F) Candy"
+	},
+	"Nidoqueen": {
+		"name": "Nidoqueen",
+		"location": "Civic (Near King O'Malleys) And Mt.Majura",
+		"alternative": "100 Nidoran (F) Candy"
+	},
+	"Nidoran(M)": {
+		"name": "Nidoran(M)",
+		"location": [
+			"Manuka",
+			"Watson Pottery",
+			"City (Glebe Park)",
+			"Bonner",
+			"Turner",
+			"Botanical Gardens",
+			"Kambah",
+			"Mount Ainslie",
+			"Forrest/Barton (Sydney avenue)"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Nidorino": {
+		"name": "Nidorino",
+		"location": [
+			"Kingston Railway Station",
+			"Botanical Gardens"
+		],
+		"alternative": "25 Nidoran (M) Candy"
+	},
+	"Nidoking": {
+		"name": "Nidoking",
+		"location": [
+			"Mt Ainslie",
+			"Majura Road (Simpsons Farm)"
+		],
+		"alternative": "100 Nidoran (M) Candy"
+	},
+	"Clefairy": {
+		"name": "Clefairy",
+		"location": [
+			"Bonner",
+			"Lyneham",
+			"Farrer (farrer shops",
+			"near the pokestop)",
+			"Mount Ainslie",
+			"Botantical Gardens",
+			"O'Connor (near Black Mountain)",
+			"Lyons",
+			"Ainslie shops (by the gym)",
+			"Gordon Pond",
+			"Australian War Memorial",
+			"Melba Shops",
+			"Black Mountain"
+		],
+		"alternative": "Hatches from 2km egg"
+	},
+	"Clefable": {
+		"name": "Clefable",
+		"location": [
+			"Lake Tuggeranong",
+			"Yarralumla (Near the lake)",
+			"Lyons Primary School"
+		],
+		"alternative": "50 Clefairy Candy"
+	},
+	"Vulpix": {
+		"name": "Vulpix",
+		"location": [
+			"Fyshwick (Newcastle Street)",
+			"Murrumbateman Village",
+			"Questacon",
+			"ANU Lena lodge"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Ninetales": {
+		"name": "Ninetales",
+		"location": "",
+		"alternative": "50 Vulpix Candy"
+	},
+	"Jigglypuff": {
+		"name": "Jigglypuff",
+		"location": [
+			"ANU (Sullivans Creek Rd)",
+			"UC",
+			"Civic (Glebe Park",
+			"Hellenic Club)",
+			"outside Westfield Woden",
+			"Lake Burley Griffin (Yacht Club)",
+			"Belconnen park (north of the mall)",
+			"National Museum",
+			"Ngunnawal"
+		],
+		"alternative": "Hatches from 2km egg"
+	},
+	"Wigglytuff": {
+		"name": "Wigglytuff",
+		"location": "",
+		"alternative": "50 Jigglypuff Candy"
+	},
+	"Zubat": {
+		"name": "Zubat",
+		"location": "Too many places. Waaay too many places",
+		"alternative": "Hatches from 2km egg"
+	},
+	"Golbat": {
+		"name": "Golbat",
+		"location": "Also too many places. Waaay too many places",
+		"alternative": "50 Zubat Candy"
+	},
+	"Oddish": {
+		"name": "Oddish",
+		"location": [
+			"Anywhere near grassy areas",
+			"Civic",
+			"Bonner",
+			"National Museum",
+			"Questacon"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Gloom": {
+		"name": "Gloom",
+		"location": [
+			"Rose Garden (Old Parliament House)",
+			"Bonner",
+			"near Lake Tuggeranong"
+		],
+		"alternative": "25 Oddish Candy"
+	},
+	"Vileplume": {
+		"name": "Vileplume",
+		"location": [
+			"Outside Department of Finance (near Old Parliment House - at night)",
+			"Lanyon"
+		],
+		"alternative": "100 Oddish Candy"
+	},
+	"Paras": {
+		"name": "Paras",
+		"location": [
+			"Anywhere near grassy areas",
+			"Civic",
+			"Bonner",
+			"Wanniassa",
+			"Questacon"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Parasect": {
+		"name": "Parasect",
+		"location": [
+			"New MacGregor",
+			"Refshauge Cres"
+		],
+		"alternative": "50 Paras Candy"
+	},
+	"Venonat": {
+		"name": "Venonat",
+		"location": [
+			"Lake Tuggeranong",
+			"Lanyon Market Place",
+			"Nishi Building NewActon",
+			"Duffy",
+			"Bonner",
+			"Mururmbateman",
+			"Mount Ainslie",
+			"CISAC",
+			"National Museum",
+			"Gungahlin"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Venomoth": {
+		"name": "Venomoth",
+		"location": [
+			"Cooleman Court",
+			"Civic",
+			"Cook",
+			"Mawson Playing Fields"
+		],
+		"alternative": "50 Venonat Candy"
+	},
+	"Diglett": {
+		"name": "Diglett",
+		"location": [
+			"UC",
+			"Parkes (High Court)"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Dugtrio": {
+		"name": "Dugtrio",
+		"location": "Black Mountain Tower Trails",
+		"alternative": "50 Diglett Candy"
+	},
+	"Meowth": {
+		"name": "Meowth",
+		"location": [
+			"Giralang",
+			"William Slim Dr",
+			"Russell",
+			"Kaleen",
+			"Queanbeyan (Yass Rd",
+			"Sutton Rd)",
+			"ANU (Dickson Road)",
+			"Ainslie Shops",
+			"Gold Creek (O'hanlon place)",
+			"Civic",
+			"Canberra Stadium",
+			"Ngunnawal"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Persian": {
+		"name": "Persian",
+		"location": "",
+		"alternative": "50 Meowth Candy"
+	},
+	"Psyduck": {
+		"name": "Psyduck",
+		"location": "Anywhere near water",
+		"alternative": "Hatches from 5km egg"
+	},
+	"Golduck": {
+		"name": "Golduck",
+		"location": [
+			"Kingston Foreshore",
+			"ANU",
+			"National Museum",
+			"Lake Burleigh Griffin",
+			"Questacon"
+		],
+		"alternative": "50 Psyduck Candy"
+	},
+	"Mankey": {
+		"name": "Mankey",
+		"location": [
+			"National Zoo",
+			"Red Hill",
+			"Parliament House",
+			"Conder (Box Hill Ave)",
+			"Botanical Gardens",
+			"Isabella Plains"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Primeape": {
+		"name": "Primeape",
+		"location": "Near Olympus st Lyons",
+		"alternative": "50 Mankey Candy"
+	},
+	"Growlithe": {
+		"name": "Growlithe",
+		"location": [
+			"ACU",
+			"Watson",
+			"Dickson",
+			"Fyshwick Markets",
+			"Arboretum",
+			"Calwell",
+			"Black Mountain",
+			"Karabah",
+			"next to Narrabundah Golf Course",
+			"Wanniassa Shops",
+			"College Sto",
+			"Australian War Memorial",
+			"Weston McDonald's"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Arcanine": {
+		"name": "Arcanine",
+		"location": [
+			"Black Mountain",
+			"Mt. Majura"
+		],
+		"alternative": "50 Growlithe Candy"
+	},
+	"Poliwag": {
+		"name": "Poliwag",
+		"location": [
+			"Erindale Shops",
+			"Questacon",
+			"Civic (Glebe Park & London Cct)",
+			"Deakin",
+			"Bonner",
+			"Murrumbateman Village",
+			"National Museum",
+			"Belconnen",
+			"Wanniassa"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Poliwhirl": {
+		"name": "Poliwhirl",
+		"location": [
+			"Civic",
+			"Woden Skate Park",
+			"next to Narrabundah Golf Course",
+			"AIATSIS",
+			"Wanniassa"
+		],
+		"alternative": "25 Poliwag Candy"
+	},
+	"Poliwrath": {
+		"name": "Poliwrath",
+		"location": "Deakin",
+		"alternative": "100 Poliwag Candy"
+	},
+	"Abra": {
+		"name": "Abra",
+		"location": [
+			"Lake Tuggeranong",
+			"Belconnen Lake",
+			"Questacon",
+			"City (Bunda St",
+			"City Walk",
+			"Glebe Park)",
+			"Lyneham",
+			"Turner",
+			"Deakin (rarely)",
+			"Murrumbateman village (rarely)",
+			"Hawker ( belcomen high School )",
+			"O'Connor",
+			"Ngunnawal (Rarely)"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Kadabra": {
+		"name": "Kadabra",
+		"location": "Flynn (Spalding St)",
+		"alternative": "25 Abra Candy"
+	},
+	"Alakazam": {
+		"name": "Alakazam",
+		"location": "",
+		"alternative": "100 Abra Candy"
+	},
+	"Machop": {
+		"name": "Machop",
+		"location": [
+			"Mount Ainslie",
+			"Black Mountain Trails",
+			"Deakin",
+			"National Museum",
+			"Cooleman Ridge Nature Reserve (Kambah)"
+		],
+		"alternative": "Hatches from 5km and 10km eggs"
+	},
+	"Machoke": {
+		"name": "Machoke",
+		"location": [
+			"Cooleman Court",
+			"Forrest"
+		],
+		"alternative": "25 Machop Candy"
+	},
+	"Machamp": {
+		"name": "Machamp",
+		"location": "Parliament House",
+		"alternative": "100 Machop Candy"
+	},
+	"Bellsprout": {
+		"name": "Bellsprout",
+		"location": [
+			"Anywhere near grassy areas",
+			"Civic (Glebe Park & London Cct)",
+			"Bonner",
+			"Wanniassa"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Weepinbell": {
+		"name": "Weepinbell",
+		"location": [
+			"Lake Tuggeranong",
+			"Isabella Plains"
+		],
+		"alternative": "25 Bellsprout Candy"
+	},
+	"Victreebel": {
+		"name": "Victreebel",
+		"location": "",
+		"alternative": "100 Bellsprout Candy"
+	},
+	"Tentacool": {
+		"name": "Tentacool",
+		"location": [
+			"Anywhere near water",
+			"also Civic"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Tentacruel": {
+		"name": "Tentacruel",
+		"location": "Anywhere near water",
+		"alternative": "50 Tentacool Candy"
+	},
+	"Geodude": {
+		"name": "Geodude",
+		"location": [
+			"Red Hill",
+			"Chisholm (Proctor Street)"
+		],
+		"alternative": "Hatches from 2km egg"
+	},
+	"Graveler": {
+		"name": "Graveler",
+		"location": "Red Hill",
+		"alternative": "25 Geodude Candy"
+	},
+	"Golem": {
+		"name": "Golem",
+		"location": "CCC Greenway",
+		"alternative": "100 Geodude Candy"
+	},
+	"Ponyta": {
+		"name": "Ponyta",
+		"location": [
+			"Lake Tuggeranong",
+			"Narrabundah (near the golf course)",
+			"Dickson Wetlands",
+			"Lanyon Market Place",
+			"city",
+			"Murrumbateman village",
+			"Bonner",
+			"Yarralumla (near Adelaide Ave exit)",
+			"Karabah",
+			"Kambah (Allchin Cct)"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Rapidash": {
+		"name": "Rapidash",
+		"location": "Canberra Airport",
+		"alternative": "50 Ponyta Candy"
+	},
+	"Slowpoke": {
+		"name": "Slowpoke",
+		"location": [
+			"Lake Tuggeranong",
+			"O'Connor shops",
+			"Mount Ainslie (behind Ainslie shops)",
+			"Belconnen lake",
+			"Lake Burley Griffin",
+			"Questacon"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Slowbro": {
+		"name": "Slowbro",
+		"location": [
+			"National Museum of Australia",
+			"Belconnen Lake",
+			"Questacon"
+		],
+		"alternative": "50 Slowpoke Candy"
+	},
+	"Magnemite": {
+		"name": "Magnemite",
+		"location": "Queanbeyan (Henderson Rd)",
+		"alternative": "Hatches from 2km and 5km eggs"
+	},
+	"Magneton": {
+		"name": "Magneton",
+		"location": "",
+		"alternative": "50 Magnemite Candy"
+	},
+	"Farfetch'd": {
+		"name": "Farfetch'd",
+		"location": "",
+		"alternative": "Hatches from 5km egg"
+	},
+	"Doduo": {
+		"name": "Doduo",
+		"location": [
+			"Everywhere",
+			"even when you run more and more will appear they look at you with their beady little eyes like some creep round the corner in the candy van waiting for you to catch more"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Dodrio": {
+		"name": "Dodrio",
+		"location": "Everywhere",
+		"alternative": "50 Doduo Candy"
+	},
+	"Seel": {
+		"name": "Seel",
+		"location": "",
+		"alternative": "Hatches from 5km egg"
+	},
+	"Dewgong": {
+		"name": "Dewgong",
+		"location": "",
+		"alternative": "50 Seel Candy"
+	},
+	"Grimer": {
+		"name": "Grimer",
+		"location": [
+			"QBN park near waterfall pool",
+			"Arboretum",
+			"Ainslie Footy Club",
+			"Foreshore near Questacon",
+			"Mawson Shops",
+			"Civic",
+			"Questacon"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Muk": {
+		"name": "Muk",
+		"location": "Lake Tuggeranong",
+		"alternative": "50 Grimer Candy"
+	},
+	"Shellder": {
+		"name": "Shellder",
+		"location": [
+			"Reconciliation Pl",
+			"Lake Ginnindera (Southside bike path)",
+			"Lyneham"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Cloyster": {
+		"name": "Cloyster",
+		"location": "",
+		"alternative": "50 Shellder Candy"
+	},
+	"Gastly": {
+		"name": "Gastly",
+		"location": [
+			"Appear at night - Civic",
+			"Sky Zone Belconnen",
+			"foreshore near Questacon",
+			"Kippax",
+			"National Museum",
+			"Edison park (never caught but says its close)",
+			"Wanniassa",
+			"AIS cafe"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Haunter": {
+		"name": "Haunter",
+		"location": [
+			"Cooleman Court",
+			"Appear at night - Civic",
+			"Wilshire St Dickson",
+			"Belconnen Bus Interchange"
+		],
+		"alternative": "25 Ghastly Candy"
+	},
+	"Gengar": {
+		"name": "Gengar",
+		"location": "",
+		"alternative": "100 Ghastly Candy"
+	},
+	"Onix": {
+		"name": "Onix",
+		"location": [
+			"Black mountain tower; Hotel Realm - Barton; VB",
+			"Canberra Outlet",
+			"Barton/Forrest (Sydney Avenue)"
+		],
+		"alternative": "Hatches from 10km egg"
+	},
+	"Drowzee": {
+		"name": "Drowzee",
+		"location": [
+			"ANU",
+			"UC",
+			"Bruce - Cafe Momo",
+			"Turner",
+			"Amaroo"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Hypno": {
+		"name": "Hypno",
+		"location": [
+			"Majura Park",
+			"Behind Old Parliament House",
+			"Macquarie"
+		],
+		"alternative": "50 Drowzee Candy"
+	},
+	"Krabby": {
+		"name": "Krabby",
+		"location": [
+			"Anywhere near water",
+			"Civic",
+			"Franklin"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Kingler": {
+		"name": "Kingler",
+		"location": [
+			"Lake Burley Griffin",
+			"Commonwealth Bridge",
+			"Civic (Reload)"
+		],
+		"alternative": "50 Krabby Candy"
+	},
+	"Voltorb": {
+		"name": "Voltorb",
+		"location": "Old Parliament House",
+		"alternative": "Hatches from 5km egg"
+	},
+	"Electrode": {
+		"name": "Electrode",
+		"location": "Questacon",
+		"alternative": "50 Voltorb Candy"
+	},
+	"Exeggcute": {
+		"name": "Exeggcute",
+		"location": [
+			"Civic",
+			"Belconnen",
+			"Gungahlin",
+			"Murrumbateman",
+			"Latham Shop",
+			"Kambah",
+			"Wanniassa"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Exeggutor": {
+		"name": "Exeggutor",
+		"location": [
+			"Red Hill",
+			"Holt"
+		],
+		"alternative": "50 Exeggcute Candy"
+	},
+	"Cubone": {
+		"name": "Cubone",
+		"location": [
+			"Mount Ainslie",
+			"Bonner near nature reserve (at night)",
+			"near Red Hill shops (at night)",
+			"Giralang (at night)"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Marowak": {
+		"name": "Marowak",
+		"location": "Lyons (Near oval)",
+		"alternative": "50 Cubone Candy"
+	},
+	"Hitmonlee": {
+		"name": "Hitmonlee",
+		"location": [
+			"Old Parliament House Rose Gdn",
+			"Civic (Glebe Park)",
+			"National Library",
+			"Bonner",
+			"Ngunnawal",
+			"Bonython Dodecahedron",
+			"Each side of Lake Burleigh Griffin"
+		],
+		"alternative": "Hatches from 10km egg"
+	},
+	"Hitmonchan": {
+		"name": "Hitmonchan",
+		"location": [
+			"Botanical Gardens",
+			"Telstra Tower",
+			"Weston McDonald's"
+		],
+		"alternative": "Hatches from 10km egg"
+	},
+	"Lickitung": {
+		"name": "Lickitung",
+		"location": [
+			"ANU Campus",
+			"Crace",
+			"Black Mountain",
+			"Around Waramanga (Night Time)",
+			"Mt. Ainslie",
+			"Gungahlin"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Koffing": {
+		"name": "Koffing",
+		"location": [
+			"Appear at night - Civic (Glebe Park)",
+			"Weston Creek (car park)",
+			"Bonner"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Weezing": {
+		"name": "Weezing",
+		"location": [
+			"near Gundaroo drive in gungahlin",
+			"Civic (London Cct)"
+		],
+		"alternative": "50 Koffing Candy"
+	},
+	"Rhyhorn": {
+		"name": "Rhyhorn",
+		"location": [
+			"Ainsle shops",
+			"Red Hill",
+			"Bonner",
+			"QBN Park",
+			"Lake Burley Griffin",
+			"Kambah"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Rhydon": {
+		"name": "Rhydon",
+		"location": "walkway under the bridge just before the roundabout between florey drive and ginnendera drive",
+		"alternative": "50 Ryhorn Candy"
+	},
+	"Chansey": {
+		"name": "Chansey",
+		"location": [
+			"Calvary hospital",
+			"Chapman"
+		],
+		"alternative": "Hatches from 10km egg"
+	},
+	"Tangela": {
+		"name": "Tangela",
+		"location": [
+			"Anywhere near grassy areas",
+			"Civic (Glebe Park)",
+			"Botanical gardens",
+			"Wanniassa"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Kangaskhan": {
+		"name": "Kangaskhan",
+		"location": [
+			"Red Hill",
+			"Mount Ainslie (top of tyson st)",
+			"Coolibah Cres O'Connor"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Horsea": {
+		"name": "Horsea",
+		"location": [
+			"Russell",
+			"Civic",
+			"CCC Greenway",
+			"Yerrabi Park",
+			"Cooma",
+			"Gungahlin",
+			"National Museum",
+			"Kingston Foreshore"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Seadra": {
+		"name": "Seadra",
+		"location": [
+			"ANU library",
+			"Farrer"
+		],
+		"alternative": "50 Horsea Candy"
+	},
+	"Goldeen": {
+		"name": "Goldeen",
+		"location": [
+			"Russell",
+			"Civic",
+			"Questacon",
+			"that alleyway near oporto in Gungahlin",
+			"Belconnen",
+			"Lake Burley Griffin"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Seaking": {
+		"name": "Seaking",
+		"location": "Mount Ainslie",
+		"alternative": "50 Goldeen Candy"
+	},
+	"Staryu": {
+		"name": "Staryu",
+		"location": [
+			"Lake Tuggeranong",
+			"Cooleman Court",
+			"Russell",
+			"Lyneham",
+			"Civic",
+			"Belconnen (Lake Ginnindera paths)",
+			"Murrumbateman Village",
+			"Lake Burley Griffin",
+			"Gungahlin"
+		],
+		"alternative": "Hatches from 5km egg"
+	},
+	"Starmie": {
+		"name": "Starmie",
+		"location": [
+			"Old Parliament House",
+			"near Red Hill shops"
+		],
+		"alternative": "50 Staryu Candy"
+	},
+	"Mr. Mime": {
+		"name": "Mr. Mime",
+		"location": "Charnwood shops during daytime.",
+		"alternative": "Hatches from 5km egg"
+	},
+	"Scyther": {
+		"name": "Scyther",
+		"location": [
+			"Civic (Reload)",
+			"ANU Campus",
+			"Franklin (Mullangarri Grasslands Trail)",
+			"Lake Tuggeranong",
+			"waterfront in front of Questacon; Anytime Fitness Charnwood; O'Connor parks"
+		],
+		"alternative": "Hatches from 10km egg"
+	},
+	"Jynx": {
+		"name": "Jynx",
+		"location": [
+			"Yowani golf club",
+			"Lyneham",
+			"Behind Woden Police Station"
+		],
+		"alternative": "Hatches from 10km egg"
+	},
+	"Electabuzz": {
+		"name": "Electabuzz",
+		"location": [
+			"Civic (Fountain)",
+			"Old Parliament House",
+			"Scullin",
+			"Queanbeyan (Yass Rd)",
+			"Museum",
+			"Shanghai Dumpling House"
+		],
+		"alternative": "Hatches from 10km egg"
+	},
+	"Magmar": {
+		"name": "Magmar",
+		"location": [
+			"Civic",
+			"National Museum",
+			"Belconnen surrounds",
+			"Kingston Foreshore",
+			"Ainslie",
+			"Telstra tower",
+			"questacon",
+			"Wanniassa Shops",
+			"Arboretum"
+		],
+		"alternative": "Hatches from 10km egg"
+	},
+	"Pinsir": {
+		"name": "Pinsir",
+		"location": [
+			"Westfield Bus Station"
+		],
+		"alternative": "Hatches from 10km egg"
+	},
+	"Tauros": {
+		"name": "Tauros",
+		"location": "Majura Park",
+		"alternative": "Hatches from 5km egg"
+	},
+	"Magikarp": {
+		"name": "Magikarp",
+		"location": [
+			"O'Connor parks near water",
+			"Lake Tuggeranong",
+			"Lake Burley Griffin",
+			"Parliament House",
+			"Lake Ginninderra"
+		],
+		"alternative": "Hatches from 2km egg"
+	},
+	"Gyarados": {
+		"name": "Gyarados",
+		"location": [
+			"Lake Tuggeranong",
+			"ANU unicourt bridge"
+		],
+		"alternative": "400 Magikarp Candy (51 Magikarp Required)"
+	},
+	"Lapras": {
+		"name": "Lapras",
+		"location": [
+			"Good Hope",
+			"Lake Tuggeranong (very rare spawn)"
+		],
+		"alternative": "Hatches from 10km egg"
+	},
+	"Ditto": {
+		"name": "Ditto",
+		"location": [
+			"Baldwin Drive near Kaleen",
+			"Macgregor just off pockley cres and lawrence (need to do a few laps to pick one up they dont show up on tracking)"
+		],
+		"alternative": ""
+	},
+	"Eevee": {
+		"name": "Eevee",
+		"location": "Everywhere (uncommon)",
+		"alternative": "Hatches from 10km egg"
+	},
+	"Vaporeon ": {
+		"name": "Vaporeon ",
+		"location": "      ",
+		"alternative": "25 Eevee Candy"
+	},
+	"Jolteon": {
+		"name": "Jolteon",
+		"location": "Calwell (Were St)",
+		"alternative": "25 Eevee Candy"
+	},
+	"Flareon": {
+		"name": "Flareon",
+		"location": "Kingston (cnr Howitt & Dawes)",
+		"alternative": "25 Eevee Candy"
+	},
+	"Porygon": {
+		"name": "Porygon",
+		"location": "Civic",
+		"alternative": "Hatches from 5km and 10km eggs"
+	},
+	"Omanyte": {
+		"name": "Omanyte",
+		"location": [
+			"Russell",
+			"Belconnen Lake",
+			"O'Conor Wetlands",
+			"National Museum of Australia"
+		],
+		"alternative": "Hatches from 10km egg"
+	},
+	"Omastar": {
+		"name": "Omastar",
+		"location": "New Acton",
+		"alternative": "50 Omanyte Candy"
+	},
+	"Kabuto": {
+		"name": "Kabuto",
+		"location": [
+			"Civic (London Cct)",
+			"Questacon",
+			"Lake Ginninderra"
+		],
+		"alternative": "Hatches from 10km egg"
+	},
+	"Kabutops": {
+		"name": "Kabutops",
+		"location": "",
+		"alternative": "50 Kabuto Candy"
+	},
+	"Aerodactyl": {
+		"name": "Aerodactyl",
+		"location": [
+			"Fadden (Holy Family Primary School)",
+			"Botanical Gardens",
+			"Birds Exhibit @ Zoo",
+			"Deakin",
+			"Mt Ainslie",
+			"Telstra Tower"
+		],
+		"alternative": "Hatches from 10km egg"
+	},
+	"Snorlax": {
+		"name": "Snorlax",
+		"location": [
+			"Spotted in Murrumbateman (rare spawn)",
+			"rare spawn at night in bonner",
+			"Gungahlin"
+		],
+		"alternative": "Hatches from 10km egg"
+	},
+	"Articuno": {
+		"name": "Articuno",
+		"location": "These are event only pokemon. Each color will be locked to your team color.",
+		"alternative": "Team Mystic"
+	},
+	"Zapdos": {
+		"name": "Zapdos",
+		"location": "These are event only pokemon. Each color will be locked to your team color.",
+		"alternative": "Team Instinct"
+	},
+	"Moltres": {
+		"name": "Moltres",
+		"location": "These are event only pokemon. Each color will be locked to your team color.",
+		"alternative": "Team Valour"
+	},
+	"Dratini": {
+		"name": "Dratini",
+		"location": [
+			"Anywhere near water",
+			"Lake Burley Griffin",
+			"Lake Tuggeranong",
+			"UC",
+			"Kaleen",
+			"Kingston",
+			"Lake Ginninderra",
+			"Sully's",
+			"Along yamba dr near Curtin (on the side with the storm drains)"
+		],
+		"alternative": "Hatches from 5km and 10km eggs"
+	},
+	"Dragonair": {
+		"name": "Dragonair",
+		"location": [
+			"Lake Tuggeranong",
+			"Turner",
+			"Sydney Park near lake",
+			"Belconnen lake",
+			"Pine Island"
+		],
+		"alternative": "25 Dratini Candy"
+	},
+	"Dragonite": {
+		"name": "Dragonite",
+		"location": [
+			"Lake Tuggeranong",
+			"Turner",
+			"Sydney Park near lake",
+			"Belconnen lake",
+			"Pine Island"
+		],
+		"alternative": "100 Dratini Candy"
+	},
+	"Mewtwo": {
+		"name": "Mewtwo",
+		"location": "These are event only pokemon.",
+		"alternative": ""
+	},
+	"Mew": {
+		"name": "Mew",
+		"location": "These are event only pokemon.",
+		"alternative": ""
+	}
+}
