@@ -1,8 +1,10 @@
+# modules
 import asyncio
 import sys
 import os
 import json
 
+# third-party modules
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import discord
@@ -11,12 +13,21 @@ from bs4 import BeautifulSoup
 from discord import role
 import pyowm
 
+# config
+import config
+
+# define paths
+DIRECTORY = os.path.dirname(os.path.abspath(__file__)) # relative directory
+PATH_GAUTH = DIRECTORY + config.GAUTH
+PATH_IMG_OAK = DIRECTORY + '\\images\\Oak1.png'
+PATH_IMG_NERD = DIRECTORY + '\\images\\nerd.jpg'
+PATH_POKEMON_DB = DIRECTORY + config.POKEMON_DB
+PATH_HELP_TEXT = DIRECTORY + config.HELP_FILE
+
 client = discord.Client()
 _roles = []
-settings = 'C:\\Users\\rhyse\\Google Drive\\Projects\\Prof-Oak\\settings.json'
-with open(settings) as json_set:
-    _set = json.load(json_set)
 
+# Bot Ready
 @client.event
 async def on_ready():
     print('Logged in as')
@@ -34,8 +45,7 @@ async def on_ready():
         _roles.append(role)
         print(role.name + ' (' + role.id + ')')
 
-
-
+# New Member Joins
 @client.event
 async def on_member_join(member):
     print("new user: {}".format(member))
@@ -44,61 +54,66 @@ async def on_member_join(member):
     await client.send_message(member.server, 'Welcome {}'.format(_user))
     await client.send_message(member, 'Welcome {}!\nTo get started type **!help**'.format(_user))
 
+# Message Received
 @client.event
 async def on_message(message):
 
+    # Command: Help
     if message.content.startswith('!help'):
         _help = '**Assigning team:**\n!role teamname or !role teamcolour\n\n**Finding a Pokemon:**\n!find Pokemon_Name\n\n**Server status:**\n!status\n\n**Current Canberra Temperature:**\n!temp\n\nMore to come! If you have any feature requests message @Mirokoth'
         await client.send_message(message.channel, '{}'.format(_help))
 
+    # Command: Find pokemon
     if message.content.startswith('!find'):
 
+            # Search publically (in summoned channel)
             if '!find us' in message.content:
                 _term = message.content.replace('!find us ', '')
                 _term = _term.title()
-                _loud = True
+                _sendTo = message.channel
+            # Search privately (direct message)
             else:
                 _term = message.content.replace('!find ', '').title()
                 _term = _term.title()
-                _loud = False
+                _sendTo = message.author
 
+            # Send notification
+            tmp = await client.send_message(_sendTo, 'Searching...\n')
 
-            if _loud == True:
-                await client.send_message(message.channel, 'Searching...\n')
-            else:
-                await client.send_message(message.author, 'Searching...\n')
+            # Easter eggs
+            if 'Oak' in _term:
+                await client.send_file(message.channel, PATH_IMG_OAK)
+            if 'MIRO' in _term.upper() or 'KOSTA' in _term.upper():
+                await client.send_file(message.channel, PATH_IMG_NERD)
 
-
-            son_key = json.load(open('C:\\Users\\rhyse\\Google Drive\\Projects\\Prof-Oak\\Google_Auth.json'))
+            # Get Google Sheet from API
             scope = ['https://spreadsheets.google.com/feeds']
-            credentials = ServiceAccountCredentials.from_json_keyfile_name('C:\\Users\\rhyse\\Google Drive\\Projects\\Prof-Oak\\Google_Auth.json', scope)
+            credentials = ServiceAccountCredentials.from_json_keyfile_name(PATH_GAUTH, scope)
             gc = gspread.authorize(credentials)
             sheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1xGH7HNNZvrOlAd1U1RogF4hlMlmN-gSFbeBpZ0gpnBY/edit#gid=0')
-            wks = sheet.get_worksheet(0)
-            if 'Oak' in _term:
-                await client.send_file(message.channel, 'C:\\Users\\rhyse\\Google Drive\\Projects\\Prof Oak\\Oak1.png')
-            if 'MIRO' in _term.upper() or 'KOSTA' in _term.upper():
-                await client.send_file(message.channel, 'C:\\Users\\rhyse\\Google Drive\\Projects\\Prof Oak\\nerd.jpg')
+            worksheet = sheet.get_worksheet(0)
+
+            # Search Google Sheet for pokemon
             try:
-                _result = wks.find(_term)
+                _result = worksheet.find(_term)
             except gspread.exceptions.CellNotFound as e:
                 await client.send_message(message.channel, 'Sorry but we could not find {}. Please confirm name'.format(_term))
-            _output = wks.cell(_result.row, _result.col+1).value
+
+            _output = worksheet.cell(_result.row, _result.col+1).value
             _output = _output.replace(',', '\n')
             print('Someone searched for {}'.format(_term))
-            if _loud == True:
-                await client.send_message(message.channel, '{} can be found at:\n```\n {} \n\n Data from - https://goo.gl/cr7ErJ```'.format(_term, _output))
-            else:
-                await client.send_message(message.author, '{} can be found at:\n```\n {} \n\n Data from - https://goo.gl/cr7ErJ```'.format(_term, _output))
 
+            # Send result
+            await client.edit_message(tmp, '**{}** found at the following location(s):\n```\n {} \n```'.format(_term, _output.strip()))
 
-
+    # Command: Get a role ID from a role mention
     if message.content.startswith('!roleid'):
-        # grab first role mentioned
+        # Grab first role mentioned
         firstRole = message.role_mentions[0]
         if firstRole:
             await client.send_message(message.channel, "Role '" + firstRole.name + "' ID: " + firstRole.id)
 
+    # Command: Get Pokemon Go server status
     if message.content.startswith('!status'):
             await client.send_message(message.channel, 'This can sometimes take a while...')
 
@@ -116,6 +131,7 @@ async def on_message(message):
                 await client.send_message(message.channel, 'Australian server: OFFLINE ')
                 print('server offline')
 
+    # Command: Get Canberra weather
     if message.content.startswith('!temp'):
         """ Weather Details"""
         owm = pyowm.OWM('c70f0e635539159ab87dc1b61f812d5d')
@@ -124,7 +140,7 @@ async def on_message(message):
         _observation = _observation.get_temperature('celsius')
         await client.send_message(message.channel, 'It is currently {}°C'.format(_observation['temp']))
 
-
+    # Command: Assign team
     if message.content.startswith('!role'):
         _term = message.content.split(' ')
         _tmp_count = 0
@@ -162,11 +178,9 @@ async def on_message(message):
         else:
             await client.send_message(message.channel, 'It looks like you already have a team.\nIf you think this is an error please let us know')
 
-
-
-
+    # Command: Kill server
     if message.content.startswith('!die'):
         await quit()
 
-
-client.run('MjAyNjg0ODc4NjYyMTM5OTA0.Cmd-CA.rrfgsulJnqTzvz0ss9T-PzAyWgM')
+# Start Discord client
+client.run(config.BOT_TOKEN)
