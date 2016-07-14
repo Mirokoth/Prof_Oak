@@ -23,9 +23,22 @@ PATH_IMG_OAK = DIRECTORY + '\\images\\Oak1.png'
 PATH_IMG_NERD = DIRECTORY + '\\images\\nerd.jpg'
 PATH_POKEMON_DB = DIRECTORY + config.POKEMON_DB
 PATH_HELP_TEXT = DIRECTORY + config.HELP_FILE
+ADMINS = json.load(open(DIRECTORY + '\\data\\admins.json'))['admins']
 
 client = discord.Client()
 _roles = []
+
+# Check if the user is an admin
+def isAdmin(serverId, userId):
+    # Check admins list
+    for adminId in ADMINS:
+        if adminId == userId:
+            return True
+    # Check owner
+    ownerId = client.get_server(serverId).owner.id
+    if ownerId == userId:
+        return True
+    return False
 
 # Bot Ready
 @client.event
@@ -196,9 +209,12 @@ async def on_message(message):
         else:
             await client.send_message(message.channel, 'It looks like you already have a team.\nIf you think this is an error please let us know')
 
-    # Command: Kill server
-    if message.content.startswith('!die'):
-        await quit()
+    # Command: Restart server
+    if message.content.startswith('!restart'):
+        # Authorise command
+        if isAdmin(message.server.id, message.author.id):
+            await client.send_message(message.channel, '<@{}> is pushing my buttons..'.format(message.author.id))
+            os.execv(sys.executable, ['python'] + sys.argv)
 
 # Start Discord client
 client.run(config.BOT_TOKEN)
