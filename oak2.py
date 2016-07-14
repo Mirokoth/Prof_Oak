@@ -1,13 +1,12 @@
 import asyncio
 import sys
 import os
-import discord
-import requests
 import json
+
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-
-
+import discord
+import requests
 from bs4 import BeautifulSoup
 from discord import role
 
@@ -53,7 +52,10 @@ async def on_message(message):
             sheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1xGH7HNNZvrOlAd1U1RogF4hlMlmN-gSFbeBpZ0gpnBY/edit#gid=0')
             wks = sheet.get_worksheet(0)
             _term = message.content.replace('!find ', '').title()
-            #_term = _term.title()
+            _term = _term.title()
+            if 'Oak' in _term:
+                await client.send_file(message.channel, 'C:\\Users\\rhyse\\Google Drive\\Projects\\Prof Oak\\Oak1.png')
+
             try:
                 _result = wks.find(_term)
             except gspread.exceptions.CellNotFound as e:
@@ -80,18 +82,19 @@ async def on_message(message):
                 _tmp_count =+ 5
                 await client.send_message(message.channel, 'http://i.imgur.com/MqxSRTm.jpg')
 
-        for role in message.author.roles:
-            if 'Mystic' in role.name:
-                _tmp_count =+ 1
-            elif 'Valor' in role.name:
-                _tmp_count =+ 1
-            elif 'Instinct' in role.name:
-                _tmp_count =+ 1
+        #for role in message.author.roles:
+            #if 'Mystic' in role.name:
+                #_tmp_count =+ 1
+            #elif 'Valor' in role.name:
+                #_tmp_count =+ 1
+            #elif 'Instinct' in role.name:
+                #_tmp_count =+ 1
 
         if _tmp_count >= 5:
                 await client.send_message(message.channel, 'Nice Try')
         if _tmp_count == 0:
-                await client.add_roles(message.author, message.role_mentions[0])
+                await client.add_roles(message.author, server.roles[1])
+                #await client.add_roles(message.author, message.role_mentions[0])
                 await client.send_message(message.channel, 'Welcome to team {}!'.format(message.role_mentions[0]))
         else:
             print(_tmp_count)
