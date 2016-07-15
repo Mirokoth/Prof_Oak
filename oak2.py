@@ -43,6 +43,12 @@ def isAdmin(serverId, userId):
         return True
     return False
 
+# Check if message is a command
+def isCmd(message):
+    if (message[0] == config.BOT_CMD_SYMBOL):
+        return True
+    return False
+
 # Bot Ready
 @client.event
 async def on_ready():
@@ -75,19 +81,35 @@ async def on_member_join(member):
 @client.event
 async def on_message(message):
 
-    # Command: Help pm
-    if message.content.upper().startswith('!HELP'):
-        _help = '**Assigning team:**\n!role teamname or !role teamcolour\n\n**Finding a Pokemon:**\n!find Pokemon_Name\n\n**Updating database of pokemon locations:**\n!c or !caught or !found\nfor a single pokemon just enter its name\nfor multiple pokemon put them in square brackets [ ]\nfollow it with the location.\n\nFor expample:\n!Found [Pikachu Squirtle Zubat] Valhalla\nor\n!c Pikachu Charnwood\n\n**Server status:**\n!status\n\n**Current Canberra Temperature:**\n!temp\n\nMore to come! If you have any feature requests message @Mirokoth'
-        await client.send_message(message.channel, ':envelope:')
-        await client.send_message(message.author, '{}'.format(_help))
+    # Check if message is a command
+    if isCmd(message.content):
+        # Log command to console
+        command = message.content.split(' ')[0][1:].upper()
+        print("{} ({}) used the following command: {}".format(message.author.name, message.author.id, command))
+    else:
+        return
 
-    #Commadn: Help channel
-    if message.content.upper().startswith('!HELP US'):
-        _help = '**Assigning team:**\n!role teamname or !role teamcolour\n\n**Finding a Pokemon:**\n!find Pokemon_Name\n\n**Updating database of pokemon locations:**\n!c or !caught or !found\nfor a single pokemon just enter its name\nfor multiple pokemon put them in square brackets [ ]\nfollow it with the location.\n\nFor expample:\n!Found [Pikachu Squirtle Zubat] Valhalla\nor\n!c Pikachu Charnwood\n\n**Server status:**\n!status\n\n**Current Canberra Temperature:**\n!temp\n\nMore to come! If you have any feature requests message @Mirokoth'
-        await client.send_message(message.channel, '{}'.format(_help))
+    # Extract arguments
+    arguments = message.content.split(' ')[1:]
+    if len(arguments) == 0:
+        arguments = False
+    await client.send_message(message.channel, "command: {}".format(command))
+    await client.send_message(message.channel, "arguments: {}".format(arguments))
+
+    # Command: Help
+    if command == "HELP":
+        # Public
+        if arguments and arguments[0].upper() == "US":
+            _help = '**Assigning team:**\n!role teamname or !role teamcolour\n\n**Finding a Pokemon:**\n!find Pokemon_Name\n\n**Updating database of pokemon locations:**\n!c or !caught or !found\nfor a single pokemon just enter its name\nfor multiple pokemon put them in square brackets [ ]\nfollow it with the location.\n\nFor expample:\n!Found [Pikachu Squirtle Zubat] Valhalla\nor\n!c Pikachu Charnwood\n\n**Server status:**\n!status\n\n**Current Canberra Temperature:**\n!temp\n\nMore to come! If you have any feature requests message @Mirokoth'
+            await client.send_message(message.channel, '{}'.format(_help))
+        # Private
+        else:
+            _help = '**Assigning team:**\n!role teamname or !role teamcolour\n\n**Finding a Pokemon:**\n!find Pokemon_Name\n\n**Updating database of pokemon locations:**\n!c or !caught or !found\nfor a single pokemon just enter its name\nfor multiple pokemon put them in square brackets [ ]\nfollow it with the location.\n\nFor expample:\n!Found [Pikachu Squirtle Zubat] Valhalla\nor\n!c Pikachu Charnwood\n\n**Server status:**\n!status\n\n**Current Canberra Temperature:**\n!temp\n\nMore to come! If you have any feature requests message @Mirokoth'
+            await client.send_message(message.channel, ':envelope:')
+            await client.send_message(message.author, '{}'.format(_help))
 
     # Command: Find pokemon
-    if message.content.upper().startswith('!FIND'):
+    if command == "FIND":
 
             # Search publically (in summoned channel)
             if '!find us' in message.content:
@@ -131,7 +153,7 @@ async def on_message(message):
             print('{} Is wasting your bandwidth, Searching for {}'.format(message.author, _term))
 
     # Command: Add new locations to pokemon database
-    if message.content.upper().startswith('!C') or message.content.upper().startswith('!CAUGHT') or message.content.upper().startswith('!FOUND'):
+    if command == "C" or command == "CAUGHT" or command == "FOUND":
         print('Updating pokemon Database - Requested by {}'.format(message.author))
         _prnt = await client.send_message(message.channel, 'Adding...')
         regex = '.*?\[(.*?)\].*?'
@@ -202,14 +224,14 @@ async def on_message(message):
                 await client.edit_message(_prnt, 'Added {} to {}'.format(_locations,_found))
 
     # Command: Get a role ID form a role mention
-    if message.content.upper().startswith('!ROLEID'):
+    if command == "ROLEID":
         # grab first role mentioned
         firstRole = message.role_mentions[0]
         if firstRole:
             await client.send_message(message.channel, "Role '" + firstRole.name + "' ID: " + firstRole.id)
 
     # Command: Get Pokemon Go server status
-    if message.content.upper().startswith('!STATUS'):
+    if command == "STATUS":
             stat_msg = await client.send_message(message.channel, 'This can sometimes take a while...')
 
             try:
@@ -231,7 +253,7 @@ async def on_message(message):
                 print('server offline')
 
     # Command: Get Canberra weather
-    if message.content.upper().startswith('!TEMP'):
+    if command == "TEMP":
         tmpw = await client.send_message(message.channel, 'Incredibly Inaccurate weather reading')
         """ Weather Details"""
         owm = pyowm.OWM(OWM_TOKEN)
@@ -241,7 +263,7 @@ async def on_message(message):
         await client.edit_message(tmpw, 'It is currently {}°C'.format(_observation['temp']))
 
     # Command: Assign team
-    if message.content.upper().startswith('!ROLE'):
+    if command == "ROLE":
         _term = message.content.split(' ')
         _tmp_count = 0
 
@@ -278,21 +300,21 @@ async def on_message(message):
         else:
             await client.send_message(message.channel, 'It looks like you already have a team.\nIf you think this is an error please let us know')
 
-    if message.content.upper().startswith('!SING'):
+    if command == "SING":
         theme = ['I', 'want', 'to', 'be', 'the', 'very', 'best', 'like', 'no', 'one', 'ever', 'was', ':blush:']
         sing = await client.send_message(message.channel, '*clears throat*')
         for lyric in theme:
             await client.edit_message(sing, lyric)
 
     # Command: Restart server
-    if message.content.upper().startswith('!RESTART'):
+    if command == "RESTART":
         # Authorise command
         if isAdmin(message.server.id, message.author.id):
             await client.send_message(message.channel, '<@{}> is pushing my buttons..'.format(message.author.id))
-            os.execv(sys.executable, ['python3'] + sys.argv)
+            os.execv(sys.executable, [config.PYTHON_CMD] + sys.argv)
 
     #Commadn: Kill server
-    if message.content.upper().startswith('!DIE'):
+    if command == "DIE":
         quit()
 
 # Start Discord client
