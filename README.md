@@ -23,3 +23,4 @@ Created to help organise the Canberra Pokemon GO Discord channel
 ## To Do
 * Better Weather API
 * Reverse pokemon search - Search via location
+* Events
