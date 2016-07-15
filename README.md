@@ -7,6 +7,8 @@ Created to help organise the Canberra Pokemon GO Discord channel
 ## Features:
 * !find
 	- Find pokemon locations in .json database
+* !found, !c, !caught
+	- Update pokemon locations in .json database
 * !help
 	- Displays the command list
 * !role
@@ -24,3 +26,4 @@ Created to help organise the Canberra Pokemon GO Discord channel
 * Better Weather API
 * Reverse pokemon search - Search via location
 * Events
+* Seperate file for !found - Output who updated what
