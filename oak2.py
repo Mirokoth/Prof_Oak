@@ -59,7 +59,7 @@ def isCmd(message):
 def command_log(author, author_id, command):
     with open(COMMAND_LOG, 'a') as log_output:
         #Appends Time and date - User and UserID - Command ran
-        log_output.write('{}  -  {} ({}) used the following command: {}\n'.format(strftime('%H:%M - %d-%b-%Y'), author, author_id, command))
+        log_output.write('n' + '{}  -  {} ({}) used the following command: {}'.format(strftime('%H:%M - %d-%b-%Y'), author, author_id, command))
         log_output.close()
     print('Updated command log')
 
@@ -262,7 +262,7 @@ async def on_message(message):
             await client.edit_message(tmp_msg, "That doesn't sound like a pokemon, e.g. **{}found zubat cave**".format(BOT_CMD_SYMBOL))
 
      # Command: Search for pokemon via location
-    if command == "LOCATION":
+    if command == "LOCATION" or command == "L":
 
         is_global = False
         # No arguments
@@ -321,7 +321,7 @@ async def on_message(message):
             tmp_msg = await client.send_message(message.channel, 'This will take a moment..')
             # GET from status website
             try:
-                html = requests.get('http://www.mmoserverstatus.com/pokemon_go', timeout=30)
+                html = await requests.get('http://www.mmoserverstatus.com/pokemon_go', timeout=10)
                 # Load HTML content into parser
                 soup = BeautifulSoup(html.content, "html.parser")
                 statuses = soup.find_all("li", "white")
@@ -334,10 +334,10 @@ async def on_message(message):
                     await client.edit_message(tmp_msg, 'Australian server: OFFLINE ')
                     print('Pokemon game server offline.')
             # GET timeout
-            except requests.exceptions.ConnectTimeout as e:
+            except (requests.exceptions.ConnectTimeout, requests.packages.urllib3.exceptions.ReadTimeoutError, requests.exceptions.ReadTimeout) as e:
                 # Error handling: on site timeout advise server is most likely down
-                print('P:GO Server Status Page not responding.')
-                await client.send_message(message.channel, 'Server status page did not respond within 30 seconds. Server most likely down.')
+                print('P:GO Server Status Page not responding. - {}'.format(e))
+                await client.send_message(message.channel, 'Server status page did not respond within 10 seconds. Server most likely down.')
 
     # Command: Get Canberra weather
     if command == "TEMP":
