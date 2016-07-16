@@ -32,6 +32,10 @@ BOT_CMD_SYMBOL = config.BOT_CMD_SYMBOL
 client = discord.Client()
 roles = []
 
+# --------------
+# Helper Methods
+# --------------
+
 # Check if the user is an admin
 def isAdmin(serverId, userId):
     # Check admins list
@@ -49,6 +53,10 @@ def isCmd(message):
     if len(message) > 0 and message[0] == BOT_CMD_SYMBOL:
         return True
     return False
+
+# --------------
+# Event Handlers
+# --------------
 
 # Bot Ready
 @client.event
