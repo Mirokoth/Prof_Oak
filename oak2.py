@@ -130,6 +130,7 @@ async def on_message(message):
             else:
                 sendTo = message.author
                 pokemon = arguments[0].title()
+                await client.send_message(message.channel, ':incoming_envelope:')
 
             # Send 'searching..' notification
             tmp_msg = await client.send_message(sendTo, 'Looking for **{}**..'.format(pokemon))
@@ -171,6 +172,7 @@ async def on_message(message):
             print('{} is wasting your bandwidth by searching for {}'.format(message.author, pokemon))
 
     # Command: Add new location to pokemon database
+    # NOTE: Need to check if the location already exists
     if command == "C" or command == "CAUGHT" or command == "FOUND":
 
         print('{} is attempting to update the pokemon database..'.format(message.author))
@@ -178,90 +180,74 @@ async def on_message(message):
         tmp_msg = await client.send_message(message.channel, 'One sec..')
 
         regex = '.*?\[(.*?)\].*?'
-        single == True
+        single = True
 
         # Multiple pokemon separated ie. [poke1 poke2]
         if '[' in message.content:
-            _poke_edit = re.match(regex, message.content).group(1).split(' ')
+            pokemon = re.match(regex, message.content).group(1).split(' ')
             location = message.content.split('] ')[1]
             single = False
         # Single pokemon
         else:
-            _poke_edit = message.content.split(' ')
-            location = ' '.join(_poke_edit[2:]).title()
-            _poke_edit = _poke_edit[1]
+            pokemon = message.content.split(' ')
+            location = ' '.join(pokemon[2:]).title()
+            pokemon = [ pokemon[1] ]
 
         # Read local data store for pokemon
-        with open(PATH_POKEMON_DB, 'r') as _poke_db:
-            pokemons = json.load(_poke_db)
+        with open(PATH_POKEMON_DB, 'r') as poke_db:
+            pokemonJson = json.load(poke_db)
 
-        # Single pokemon entered
-        if single == True:
+        found = []
+        not_found = []
+        for poke in pokemon:
             valid = True
             # Pokemon is valid
             try:
-                _pokemon_ed = pokemons[_poke_edit.title()]
+                pokemon = pokemonJson[poke.title()]
+                found.append(poke)
             # Pokemon is NOT valid
             except KeyError as e:
-                await client.send_message(message.channel, "That doesn't sound like a pokemon, e.g. **{}found zubat cave**".format(BOT_CMD_SYMBOL))
                 valid = False
-            # Pokemon is valid
+                not_found.append(poke)
+            # When valid
             if valid == True:
                 # Multiple existing locations in an array
                 # NOTE: This should be replaced so that they're always in an array
-                if type(_pokemon_ed['location']) is not str:
-                    _pokemon_ed['location'].append(location)
+                if type(pokemon['location']) is not str:
+                    pokemon['location'].append(location)
                 # Single existing location
-                if type(_pokemon_ed['location']) is str:
+                if type(pokemon['location']) is str:
                     _tempLst = []
-                    _tempLst.append(_pokemon_ed['location'])
-                    _pokemon_ed['location'] = _tempLst
-                    _pokemon_ed['location'].append(location)
+                    _tempLst.append(pokemon['location'])
+                    pokemon['location'] = _tempLst
+                    pokemon['location'].append(location)
                 # Write to local data store
-                with open(PATH_POKEMON_DB, 'w') as _poke_db:
-                    json.dump(pokemons, _poke_db)
-                    _poke_db.close()
-                    await client.edit_message(tmp_msg, "Good find kiddo. **{}** has been added to the locadex for **{}**!".format(location,_poke_edit.title()))
+                with open(PATH_POKEMON_DB, 'w') as poke_db:
+                    json.dump(pokemonJson, poke_db)
+                    poke_db.close()
+            # When invalid
             else:
                 pass
 
-        # Multiple pokemon entered
-        if single == False:
-            _notfound = ''
-            _found = ''
-            _was_not_found = False
-            for poke in _poke_edit:
-                valid = True
-                # Pokemon is valid
-                try:
-                    _pokemon_ed = pokemons[poke.title()]
-                    _found += "{} ".format(poke)
-                # Pokemon is NOT valid
-                except KeyError as e:
-                    _notfound += "{} ".format(poke)
-                    _was_not_found = True
-                    valid = False
-                if valid == True:
-                    # Multiple existing locations in an array
-                    # NOTE: This should be replaced so that they're always in an array
-                    if type(_pokemon_ed['location']) is not str:
-                        _pokemon_ed['location'].append(location)
-                    # Single existing location
-                    if type(_pokemon_ed['location']) is str:
-                        _tempLst = []
-                        _tempLst.append(_pokemon_ed['location'])
-                        _pokemon_ed['location'] = _tempLst
-                        _pokemon_ed['location'].append(location)
-                    # Write to local data store
-                    with open(PATH_POKEMON_DB, 'w') as _poke_db:
-                        json.dump(pokemons, _poke_db)
-                        _poke_db.close()
-                else:
-                    pass
-            if _was_not_found == True:
-                await client.edit_message(tmp_msg, 'Added {} to {} but was unable to add {}'.format(location,_found,_notfound))
-            if _was_not_found == False:
-                await client.edit_message(tmp_msg, 'Added {} to {}'.format(location,_found))
+        # All pokemon were NOT found
+        if len(found) == 0 and len(not_found) > 0:
+            if single == True:
+                await client.edit_message(tmp_msg, "That doesn't sound like a pokemon, e.g. **{}found zubat cave**".format(BOT_CMD_SYMBOL))
+            else:
+                await client.edit_message(tmp_msg, "They don't sound like pokemon, e.g. **{}found [zubat golbat] cave**".format(BOT_CMD_SYMBOL))
+        # Pokemon were BOTH found and not found
+        elif len(found) > 0 and len(not_found) > 0:
+            found = ", ".join(found).title()
+            not_found = ", ".join(not_found).title()
+            await client.edit_message(tmp_msg, "I've added **{}** to the locadex for **{}**, but **{}** don't sound like pokemon!".format(location, found, not_found))
+        # Pokemon were ONLY FOUND
+        elif len(found) > 0 and len(not_found) == 0:
+            found = ", ".join(found).title()
+            await client.edit_message(tmp_msg, "Good find kiddo. **{}** has been added to the locadex for **{}**!".format(location, found))
+        # Pokemon were ONLY NOT FOUND
+        elif len(found) == 0 and len(not_found) > 0:
+            not_found = ", ".join(not_found).title()
+            await client.edit_message(tmp_msg, "That doesn't sound like a pokemon, e.g. **{}found zubat cave**".format(BOT_CMD_SYMBOL))
 
      # Command: Search for pokemon via location
     if command == "LOCATION":
@@ -329,7 +315,7 @@ async def on_message(message):
         await client.edit_message(tmp_msg, 'It is currently {}°C'.format(weather['temp']))
 
     # Command: Assign team
-    if command == "ROLE":
+    if command == "ROLE" or command == "TEAM":
         count = 0
         inTeam = False
 
