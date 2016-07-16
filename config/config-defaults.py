@@ -8,3 +8,4 @@ OWM_TOKEN = "<insert owm api token>" # Pyowm API token
 GAUTH = "\\data\\Google_Auth.json" # Path to Google API json
 POKEMON_DB = "\\data\\pokemon.json" # Path to pokemon locations json
 HELP_FILE = "\\data\\help.txt"
+COMMAND_LOG = "command_log.txt" # Location to log all user command imputs

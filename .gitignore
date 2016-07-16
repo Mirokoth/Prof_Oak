@@ -144,3 +144,8 @@ ENV/
 
 # Rope project settings
 .ropeproject
+data/admins.json
+data/command_log.txt
+data/pokemon.json
+data/admins.json
+data/pokemon.json~HEAD

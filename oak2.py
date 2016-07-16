@@ -4,7 +4,7 @@ import sys
 import os
 import json
 import re
-
+from time import strftime
 # third-party modules
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
@@ -28,6 +28,7 @@ with open(DIRECTORY + config.HELP_FILE) as HELP:
 OWM_TOKEN = config.OWM_TOKEN
 ADMINS = json.load(open(DIRECTORY + '/data/admins.json'))['admins']
 BOT_CMD_SYMBOL = config.BOT_CMD_SYMBOL
+COMMAND_LOG = DIRECTORY + config.COMMAND_LOG
 
 client = discord.Client()
 roles = []
@@ -53,6 +54,13 @@ def isCmd(message):
     if len(message) > 0 and message[0] == BOT_CMD_SYMBOL:
         return True
     return False
+
+# Logs all user command inputs to COMMAND_LOG
+def command_log(author, author_id, command):
+    with open(COMMAND_LOG, 'a') as log_output:
+        log_output.write('{}  -  {} ({}) used the following command: {}\n'.format(strftime('%H:%M - %d-%b-%Y'), author, author_id, command))
+        log_output.close()
+    print('Updated command log')
 
 # --------------
 # Event Handlers
@@ -92,6 +100,9 @@ async def on_message(message):
         # Log command to console
         command = message.content.split(' ')[0][1:].upper()
         print("{} ({}) used the following command: {}".format(message.author.name, message.author.id, command))
+        # Send message of to be Logged
+        command_log(message.author.name, message.author.id, message.content)
+
     else:
         return
 
@@ -113,7 +124,7 @@ async def on_message(message):
         # Private
         else:
             sendTo = message.author
-            await client.send_message(message.channel, ':incoming_envelope:')
+            await client.send_message(message.channel, 'Check your mailbox kiddo! :incoming_envelope:')
         await client.send_message(sendTo, '{}'.format(helpMsg))
 
     # Command: Find pokemon
@@ -130,7 +141,7 @@ async def on_message(message):
             else:
                 sendTo = message.author
                 pokemon = arguments[0].title()
-                await client.send_message(message.channel, ':incoming_envelope:')
+                await client.send_message(message.channel, 'Check your mailbox kiddo! :incoming_envelope:')
 
             # Send 'searching..' notification
             tmp_msg = await client.send_message(sendTo, 'Looking for **{}**..'.format(pokemon))
@@ -251,8 +262,29 @@ async def on_message(message):
 
      # Command: Search for pokemon via location
     if command == "LOCATION":
+
+        is_global = False
+        # No arguments
+        if not arguments:
+            await client.send_message(message.channel, "Please specify a location, e.g. {}location Woden".format(BOT_CMD_SYMBOL))
+        # Search publically (in summoned channel)
+        elif arguments and arguments[0].upper() == "US":
+            sendTo = message.channel
+            pokemon = arguments[1].title()
+            is_global = True
+        # Search privately (direct message)
+        else:
+            sendTo = message.author
+            pokemon = arguments[0].title()
+            #await client.send_message(message.channel, 'Check your mailbox kiddo! :incoming_envelope:')
+
         print('{} is smashing the DB, reverse searching for {}'.format(message.author,message.content))
-        _term = message.content.upper().replace('!LOCATION', '')
+        if is_global == True:
+            _term = message.content.upper().replace('!LOCATION US', '')
+        else:
+            _term = message.content.upper().replace('!LOCATION', '')
+        if _term[-1] == ' ':
+            _term = _term[0:-2]
         _output = ''
         _pokemon = json.load(open(PATH_POKEMON_DB))
         _pokecount = 0
@@ -267,10 +299,13 @@ async def on_message(message):
                 if _term in _caps_location:
                     _output += '{} - {}\n'.format(_name,location)
         if len(_output) < 1:
-            await client.send_message(message.author, 'Sorry, nothing found for {}.\nPlease refine search term'.format(_term))
+            await client.send_message(sendTo, 'Sorry, nothing found for {}.\nPlease refine search term'.format(_term))
         else:
-            await client.send_message(message.author, 'You can find the following pokemon with **{}** in the location(s)```{}```'.format(_term,_output))
-            await client.send_message(message.channel, 'Check your mailbox kiddo! :incoming_envelope:')
+            await client.send_message(sendTo, 'You can find the following pokemon with **{}** in the location(s)```{}```'.format(_term,_output))
+            if is_global == True:
+                pass
+            else:
+                await client.send_message(message.channel, 'Check your mailbox kiddo! :incoming_envelope:')
 
     # Command: Get a role ID form a role mention
     if command == "ROLEID":
