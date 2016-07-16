@@ -27,9 +27,10 @@ with open(DIRECTORY + config.HELP_FILE) as HELP:
     PATH_HELP_TEXT = HELP
 OWM_TOKEN = config.OWM_TOKEN
 ADMINS = json.load(open(DIRECTORY + '/data/admins.json'))['admins']
+BOT_CMD_SYMBOL = config.BOT_CMD_SYMBOL
 
 client = discord.Client()
-_roles = []
+roles = []
 
 # Check if the user is an admin
 def isAdmin(serverId, userId):
@@ -45,26 +46,23 @@ def isAdmin(serverId, userId):
 
 # Check if message is a command
 def isCmd(message):
-    if (message[0] == config.BOT_CMD_SYMBOL):
+    if (message[0] == BOT_CMD_SYMBOL):
         return True
     return False
 
 # Bot Ready
 @client.event
 async def on_ready():
-    print('Logged in as')
-    print(client.user.name)
-    print(client.user.id)
-    print('------')
-    print('Connected servers...')
+    print('Logged in as {} ({}) with the following connected servers..'.format(client.user.name, client.user.id))
     print('------')
     for server in client.servers:
-        print(server.name + ' (' + server.id + ')')
+        print('{} ({})'.format(server.name, server.id))
         print('------')
+    # Cache server roles
     print('Roles')
     print('------')
     for role in server.roles:
-        _roles.append(role)
+        roles.append(role)
         print(role.name + ' (' + role.id + ')')
     print('------')
     print('Prof Oak ready to party')
@@ -93,135 +91,169 @@ async def on_message(message):
     arguments = message.content.split(' ')[1:]
     if len(arguments) == 0:
         arguments = False
-    await client.send_message(message.channel, "command: {}".format(command))
-    await client.send_message(message.channel, "arguments: {}".format(arguments))
+    # await client.send_message(message.channel, "command: {}".format(command))
+    # await client.send_message(message.channel, "arguments: {}".format(arguments))
 
     # Command: Help
     if command == "HELP":
+
+        helpMsg = '**Assigning team:**\n!role teamname or !role teamcolour\n\n**Finding a Pokemon:**\n!find Pokemon_Name\n\n**Updating database of pokemon locations:**\n!c or !caught or !found\nfor a single pokemon just enter its name\nfor multiple pokemon put them in square brackets [ ]\nfollow it with the location.\n\nFor expample:\n!Found [Pikachu Squirtle Zubat] Valhalla\nor\n!c Pikachu Charnwood\n\n**Server status:**\n!status\n\n**Current Canberra Temperature:**\n!temp\n\nMore to come! If you have any feature requests message @Mirokoth'
+
         # Public
         if arguments and arguments[0].upper() == "US":
-            _help = '**Assigning team:**\n!role teamname or !role teamcolour\n\n**Finding a Pokemon:**\n!find Pokemon_Name\n\n**Updating database of pokemon locations:**\n!c or !caught or !found\nfor a single pokemon just enter its name\nfor multiple pokemon put them in square brackets [ ]\nfollow it with the location.\n\nFor expample:\n!Found [Pikachu Squirtle Zubat] Valhalla\nor\n!c Pikachu Charnwood\n\n**Server status:**\n!status\n\n**Current Canberra Temperature:**\n!temp\n\nMore to come! If you have any feature requests message @Mirokoth'
-            await client.send_message(message.channel, '{}'.format(_help))
+            sendTo = message.channel
         # Private
         else:
-            _help = '**Assigning team:**\n!role teamname or !role teamcolour\n\n**Finding a Pokemon:**\n!find Pokemon_Name\n\n**Updating database of pokemon locations:**\n!c or !caught or !found\nfor a single pokemon just enter its name\nfor multiple pokemon put them in square brackets [ ]\nfollow it with the location.\n\nFor expample:\n!Found [Pikachu Squirtle Zubat] Valhalla\nor\n!c Pikachu Charnwood\n\n**Server status:**\n!status\n\n**Current Canberra Temperature:**\n!temp\n\nMore to come! If you have any feature requests message @Mirokoth'
+            sendTo = message.author
             await client.send_message(message.channel, ':envelope:')
-            await client.send_message(message.author, '{}'.format(_help))
+        await client.send_message(sendTo, '{}'.format(helpMsg))
 
     # Command: Find pokemon
     if command == "FIND":
 
+            # No arguments
+            if not arguments:
+                await client.send_message(message.channel, "Please specify a pokemon, e.g. {}find zubat".format(BOT_CMD_SYMBOL))
             # Search publically (in summoned channel)
-            if '!find us' in message.content:
-                _term = message.content.replace('!find us ', '')
-                _term = _term.title()
-                _sendTo = message.channel
+            elif arguments and arguments[0].upper() == "US":
+                sendTo = message.channel
+                pokemon = arguments[1].title()
             # Search privately (direct message)
             else:
-                _term = message.content.replace('!find ', '').title()
-                _term = _term.title()
-                _sendTo = message.author
+                sendTo = message.author
+                pokemon = arguments[0].title()
 
-            # Send notification
-            tmp = await client.send_message(_sendTo, 'Searching...\n')
+            # Send 'searching..' notification
+            tmp_msg = await client.send_message(sendTo, 'Looking for **{}**..'.format(pokemon))
 
             # Easter eggs
-            if 'OAK' in _term.upper():
+            if 'OAK' in pokemon.upper():
                 await client.send_file(message.channel, PATH_IMG_OAK)
-            if 'MIRO' in _term.upper() or 'KOSTA' in _term.upper():
+            if 'MIRO' in pokemon.upper() or 'KOSTA' in pokemon.upper():
                 await client.send_file(message.channel, PATH_IMG_NERD)
 
-            # Search PATH_POKEMON_DB .json file for pokemon
-            with open(PATH_POKEMON_DB) as _poke_db:
-                _pokemon = json.load(_poke_db)
+            # Search local data store for pokemon
+            with open(PATH_POKEMON_DB) as poke_db:
+                pokemons = json.load(poke_db)
+            # Find pokemon in data store
             try:
-                _pokemon = _pokemon[_term]
+                pokemons = pokemons[pokemon]
             except KeyError as e:
-                await client.edit_message(tmp, 'Sorry but we could not find {}. \nPlease confirm name'.format(_term))
-            location = ''
-            if type(_pokemon['location']) is not str:
-                for local in _pokemon['location']:
-                    location += local
-                    location += '\n'
-            if type(_pokemon['location']) is str:
-                location += _pokemon['location']
+                pokemons = False
+                await client.edit_message(tmp_msg, "Sorry, I couldn't find that pokemon pal!".format(pokemon))
 
-            # Send result
-            await client.edit_message(tmp, '**{}** found at the following location(s):\n```\n{}```\nAnd can be obtained by:\n```\n{}\n```'.format(_term, location, _pokemon['alternative']))
+            # Pokemon is found
+            if pokemons:
+                location = ''
+                # Multiple locations in an array
+                # NOTE: This should be replaced so that they're always in an array
+                if type(pokemons['location']) is not str:
+                    for loc in pokemons['location']:
+                        location += loc
+                        location += '\n'
+                # Single location
+                if type(pokemons['location']) is str:
+                    location += pokemons['location']
+                # Send result
+                await client.edit_message(tmp_msg, '**{}** found at the following location(s):\n```\n{}```\nAnd can be obtained by:\n```\n{}\n```'.format(pokemon, location, pokemons['alternative']))
+            else:
+                print("No pokemons")
 
             # Let console know what is going on
-            print('{} Is wasting your bandwidth, Searching for {}'.format(message.author, _term))
+            print('{} is wasting your bandwidth by searching for {}'.format(message.author, pokemon))
 
-    # Command: Add new locations to pokemon database
+    # Command: Add new location to pokemon database
     if command == "C" or command == "CAUGHT" or command == "FOUND":
-        print('Updating pokemon Database - Requested by {}'.format(message.author))
-        _prnt = await client.send_message(message.channel, 'Adding...')
+
+        print('{} is attempting to update the pokemon database..'.format(message.author))
+        # Send 'searching..' notification
+        tmp_msg = await client.send_message(message.channel, 'One sec..')
+
         regex = '.*?\[(.*?)\].*?'
+        single == True
+
+        # Multiple pokemon separated ie. [poke1 poke2]
         if '[' in message.content:
             _poke_edit = re.match(regex, message.content).group(1).split(' ')
-            _locations = message.content.split('] ')[1]
-            _singlemon = False
+            location = message.content.split('] ')[1]
+            single = False
+        # Single pokemon
         else:
             _poke_edit = message.content.split(' ')
-            _locations = ' '.join(_poke_edit[2:]).title()
+            location = ' '.join(_poke_edit[2:]).title()
             _poke_edit = _poke_edit[1]
-            _singlemon = True
 
+        # Read local data store for pokemon
         with open(PATH_POKEMON_DB, 'r') as _poke_db:
-            _pokemon = json.load(_poke_db)
+            pokemons = json.load(_poke_db)
 
-        if _singlemon == True:
-            _currentloop = False
+        # Single pokemon entered
+        if single == True:
+            valid = True
+            # Pokemon is valid
             try:
-                _pokemon_ed = _pokemon[_poke_edit.title()]
+                _pokemon_ed = pokemons[_poke_edit.title()]
+            # Pokemon is NOT valid
             except KeyError as e:
-                await client.send_message(message.channel, '{} not found, please confirm spelling'.format(_poke_edit))
-                _currentloop = True
-            if _currentloop == False:
+                await client.send_message(message.channel, "That doesn't sound like a pokemon, e.g. **{}found zubat cave**".format(BOT_CMD_SYMBOL))
+                valid = False
+            # Pokemon is valid
+            if valid == True:
+                # Multiple existing locations in an array
+                # NOTE: This should be replaced so that they're always in an array
                 if type(_pokemon_ed['location']) is not str:
-                    _pokemon_ed['location'].append(_locations)
+                    _pokemon_ed['location'].append(location)
+                # Single existing location
                 if type(_pokemon_ed['location']) is str:
                     _tempLst = []
                     _tempLst.append(_pokemon_ed['location'])
                     _pokemon_ed['location'] = _tempLst
-                    _pokemon_ed['location'].append(_locations)
+                    _pokemon_ed['location'].append(location)
+                # Write to local data store
                 with open(PATH_POKEMON_DB, 'w') as _poke_db:
-                    json.dump(_pokemon, _poke_db)
+                    json.dump(pokemons, _poke_db)
                     _poke_db.close()
-                    await client.edit_message(_prnt, 'Added {} to {}'.format(_locations,_poke_edit))
+                    await client.edit_message(tmp_msg, "Good find kiddo. **{}** has been added to the locadex for **{}**!".format(location,_poke_edit.title()))
             else:
                 pass
 
-        if _singlemon == False:
+        # Multiple pokemon entered
+        if single == False:
             _notfound = ''
             _found = ''
             _was_not_found = False
             for poke in _poke_edit:
-                _currentloop = False
+                valid = True
+                # Pokemon is valid
                 try:
-                    _pokemon_ed = _pokemon[poke.title()]
+                    _pokemon_ed = pokemons[poke.title()]
                     _found += "{} ".format(poke)
+                # Pokemon is NOT valid
                 except KeyError as e:
                     _notfound += "{} ".format(poke)
                     _was_not_found = True
-                    _currentloop = True
-                if _currentloop == False:
+                    valid = False
+                if valid == True:
+                    # Multiple existing locations in an array
+                    # NOTE: This should be replaced so that they're always in an array
                     if type(_pokemon_ed['location']) is not str:
-                        _pokemon_ed['location'].append(_locations)
+                        _pokemon_ed['location'].append(location)
+                    # Single existing location
                     if type(_pokemon_ed['location']) is str:
                         _tempLst = []
                         _tempLst.append(_pokemon_ed['location'])
                         _pokemon_ed['location'] = _tempLst
-                        _pokemon_ed['location'].append(_locations)
+                        _pokemon_ed['location'].append(location)
+                    # Write to local data store
                     with open(PATH_POKEMON_DB, 'w') as _poke_db:
-                        json.dump(_pokemon, _poke_db)
+                        json.dump(pokemons, _poke_db)
                         _poke_db.close()
                 else:
                     pass
             if _was_not_found == True:
-                await client.edit_message(_prnt, 'Added {} to {} but was unable to add {}'.format(_locations,_found,_notfound))
+                await client.edit_message(tmp_msg, 'Added {} to {} but was unable to add {}'.format(location,_found,_notfound))
             if _was_not_found == False:
-                await client.edit_message(_prnt, 'Added {} to {}'.format(_locations,_found))
+                await client.edit_message(tmp_msg, 'Added {} to {}'.format(location,_found))
 
     # Command: Get a role ID form a role mention
     if command == "ROLEID":
@@ -232,74 +264,91 @@ async def on_message(message):
 
     # Command: Get Pokemon Go server status
     if command == "STATUS":
-            stat_msg = await client.send_message(message.channel, 'This can sometimes take a while...')
-
+            tmp_msg = await client.send_message(message.channel, 'This will take a moment..')
+            # GET from status website
             try:
-                _page = requests.get(
-                            'http://www.mmoserverstatus.com/pokemon_go',
-                            timeout=120)
+                html = requests.get('http://www.mmoserverstatus.com/pokemon_go', timeout=120)
+            # GET timeout
             except TimeOut as e:
                 # Error handling: on site timeout advise server is most likely down
                 await client.send_message(message.channel, 'Site did not respond in time, server is most likely down.')
-            _page.text
-            _page_cont = _page.content
-            _soup_page = BeautifulSoup(_page_cont, "html.parser")
-            _soup_li = _soup_page.find_all("li", "white")
-            if 'fa fa-check' in str(_soup_li[0]):
-                await client.edit_message(stat_msg, 'Australian server: ONLINE ')
-                print("Running a P:GO server check - Server up")
+            # Load HTML content into parser
+            soup = BeautifulSoup(html.content, "html.parser")
+            statuses = soup.find_all("li", "white")
+            # Check for a class on the status icons inside list points
+            # NOTE: This does NOT check the Australian server?
+            if 'fa fa-check' in str(statuses[0]):
+                await client.edit_message(tmp_msg, 'Australian server: ONLINE ')
+                print("Pokemon game server online.")
             else:
-                await client.send_message(message.channel, 'Australian server: OFFLINE ')
-                print('server offline')
+                await client.edit_message(tmp_msg, 'Australian server: OFFLINE ')
+                print('Pokemon game server offline.')
 
     # Command: Get Canberra weather
     if command == "TEMP":
-        tmpw = await client.send_message(message.channel, 'Incredibly Inaccurate weather reading')
-        """ Weather Details"""
+        # Send 'searching' notification
+        tmp_msg = await client.send_message(message.channel, 'Cooking up an incredibly inaccurate weather reading..')
+        # Authenticate to the Pyowm API
+        # NOTE: Need error handling
         owm = pyowm.OWM(OWM_TOKEN)
-        _weather_location = owm.weather_at_place('Canberra,AU')
-        _observation = _weather_location.get_weather()
-        _observation = _observation.get_temperature('celsius')
-        await client.edit_message(tmpw, 'It is currently {}°C'.format(_observation['temp']))
+        location = owm.weather_at_place('Canberra,AU')
+        weather = location.get_weather()
+        weather = weather.get_temperature('celsius')
+        # Send result
+        await client.edit_message(tmp_msg, 'It is currently {}°C'.format(weather['temp']))
 
     # Command: Assign team
     if command == "ROLE":
-        _term = message.content.split(' ')
-        _tmp_count = 0
+        count = 0
+        inTeam = False
 
+        # Check if user is already in a team
         for role in message.author.roles:
             if 'Mystic' in role.name:
-                _tmp_count =+ 1
+                inTeam = 'Mystic'
             elif 'Valor' in role.name:
-                _tmp_count =+ 1
+                inTeam = 'Valor'
             elif 'Instinct' in role.name:
-                _tmp_count =+ 1
+                inTeam = 'Instinct'
 
-        if 'ADMIN' in _term[1].upper():
+        # No argument provided
+        if arguments == False:
+            await client.send_message(message.channel, 'Please specify a team, e.g. **{}role blue**'.format(BOT_CMD_SYMBOL))
+        # Assign admin
+        elif arguments[0].upper() == 'ADMIN':
             await client.send_message(message.channel, 'http://i.imgur.com/MqxSRTm.jpg')
-            _tmp_count =+ 5
-
-        if _tmp_count == 0:
-            if 'MY' in _term[1].upper() or 'BL' in _term[1].upper():
-                for role in _roles:
-                    if 'MYSTIC' in str(role.name.upper()) and 'ADMIN' not in str(role.name.upper()):
-                        await client.add_roles(message.author, role)
-                        await client.send_message(message.channel, 'Welcome to team {}!'.format(role.name))
-            if 'VA' in _term[1].upper() or 'RE' in _term[1].upper():
-                for role in _roles:
-                    if 'VALOR' in str(role.name.upper()) and 'ADMIN' not in str(role.name.upper()):
-                        await client.add_roles(message.author, role)
-                        await client.send_message(message.channel, 'Welcome to team {}!'.format(role.name))
-            if 'IN' in _term[1].upper() or 'YE' in _term[1].upper():
-                for role in _roles:
-                    if 'INSTINCT' in str(role.name.upper()) and 'ADMIN' not in str(role.name.upper()):
-                        await client.add_roles(message.author, role)
-                        await client.send_message(message.channel, 'Welcome to team {}!'.format(role.name))
-        if _tmp_count >= 5:
             await client.send_message(message.channel, 'Nice try ;)')
+        # User is already in a team
+        elif inTeam:
+            await client.send_message(message.channel, "You're already a member of {}!\nIf this is incorrect please contact an admin.".format(inTeam))
+        # Assign team
         else:
-            await client.send_message(message.channel, 'It looks like you already have a team.\nIf you think this is an error please let us know')
+            # Look for team argument
+            assignRole = False
+            # Mystic / Blue
+            if arguments[0].upper() == 'MYSTIC' or arguments[0].upper() == 'BLUE':
+                assignRole = 'MYSTIC'
+            # Valor / Red
+            elif arguments[0].upper() == 'VALOR' or arguments[0].upper() == 'RED':
+                assignRole = 'VALOR'
+            # Instinct / Yellow
+            elif arguments[0].upper() == 'INSTINCT' or arguments[0].upper() == 'YELLOW':
+                assignRole = 'INSTINCT'
+            # Invalid
+            else:
+                await client.send_message(message.channel, 'Please specify a team, e.g. **{}role blue**'.format(BOT_CMD_SYMBOL))
 
+            # Find and assign the role object
+            for role in roles:
+                if role.name.upper() == assignRole:
+                    assignRole = role
+
+            # Assign role to user
+            if assignRole != False:
+                await client.add_roles(message.author, assignRole)
+                await client.send_message(message.channel, 'Welcome to team {}!'.format(assignRole.name))
+
+    # Command: Sing
     if command == "SING":
         theme = ['I', 'want', 'to', 'be', 'the', 'very', 'best', 'like', 'no', 'one', 'ever', 'was', ':blush:']
         sing = await client.send_message(message.channel, '*clears throat*')
