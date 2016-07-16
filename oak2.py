@@ -58,6 +58,7 @@ def isCmd(message):
 # Logs all user command inputs to COMMAND_LOG
 def command_log(author, author_id, command):
     with open(COMMAND_LOG, 'a') as log_output:
+        #Appends Time and date - User and UserID - Command ran
         log_output.write('{}  -  {} ({}) used the following command: {}\n'.format(strftime('%H:%M - %d-%b-%Y'), author, author_id, command))
         log_output.close()
     print('Updated command log')
@@ -283,6 +284,7 @@ async def on_message(message):
             _term = message.content.upper().replace('!LOCATION US', '')
         else:
             _term = message.content.upper().replace('!LOCATION', '')
+        # Checks if there is a space at the end of the search term and removes it
         if _term[-1] == ' ':
             _term = _term[0:-2]
         _output = ''
