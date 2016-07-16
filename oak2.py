@@ -322,21 +322,22 @@ async def on_message(message):
             # GET from status website
             try:
                 html = requests.get('http://www.mmoserverstatus.com/pokemon_go', timeout=30)
+                # Load HTML content into parser
+                soup = BeautifulSoup(html.content, "html.parser")
+                statuses = soup.find_all("li", "white")
+                # Check for a class on the status icons inside list points
+                # NOTE: This does NOT check the Australian server?
+                if 'fa fa-check' in str(statuses[0]):
+                    await client.edit_message(tmp_msg, 'Australian server: ONLINE ')
+                    print("Pokemon game server online.")
+                else:
+                    await client.edit_message(tmp_msg, 'Australian server: OFFLINE ')
+                    print('Pokemon game server offline.')
             # GET timeout
             except requests.exceptions.ConnectTimeout as e:
                 # Error handling: on site timeout advise server is most likely down
+                print('P:GO Server Status Page not responding.')
                 await client.send_message(message.channel, 'Server status page did not respond within 30 seconds. Server most likely down.')
-            # Load HTML content into parser
-            soup = BeautifulSoup(html.content, "html.parser")
-            statuses = soup.find_all("li", "white")
-            # Check for a class on the status icons inside list points
-            # NOTE: This does NOT check the Australian server?
-            if 'fa fa-check' in str(statuses[0]):
-                await client.edit_message(tmp_msg, 'Australian server: ONLINE ')
-                print("Pokemon game server online.")
-            else:
-                await client.edit_message(tmp_msg, 'Australian server: OFFLINE ')
-                print('Pokemon game server offline.')
 
     # Command: Get Canberra weather
     if command == "TEMP":
