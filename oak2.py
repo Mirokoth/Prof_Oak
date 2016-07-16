@@ -46,7 +46,7 @@ def isAdmin(serverId, userId):
 
 # Check if message is a command
 def isCmd(message):
-    if (message[0] == BOT_CMD_SYMBOL):
+    if len(message) > 0 and message[0] == BOT_CMD_SYMBOL:
         return True
     return False
 
