@@ -26,4 +26,7 @@ Created to help organise the Canberra Pokemon GO Discord channel
 * Better Weather API
 * Events
 * !found egg hatches
-* add !l as a switch for location
+* Get !L to work with 'US'
+* Seperate modules for PGO commands and generic bot commands
+* PGO Specific pokedex - https://github.com/PokemonGOAPI/PokemonDataGraber/blob/master/output.json
+* Better server status. pgorelease.nianticlabs.com/plfe looks good but unsure how to pull only australia data
