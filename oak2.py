@@ -97,7 +97,7 @@ async def on_message(message):
     # Command: Help
     if command == "HELP":
 
-        helpMsg = '**Assigning team:**\n!role teamname or !role teamcolour\n\n**Finding a Pokemon:**\n!find Pokemon_Name\n\n**Updating database of pokemon locations:**\n!c or !caught or !found\nfor a single pokemon just enter its name\nfor multiple pokemon put them in square brackets [ ]\nfollow it with the location.\n\nFor expample:\n!Found [Pikachu Squirtle Zubat] Valhalla\nor\n!c Pikachu Charnwood\n\n**Server status:**\n!status\n\n**Current Canberra Temperature:**\n!temp\n\nMore to come! If you have any feature requests message @Mirokoth'
+        helpMsg = '**Assigning team:**\n!role teamname or !role teamcolour\n\n**Finding a Pokemon:**\n!find Pokemon_Name\n\n**Updating database of pokemon locations:**\n!c or !caught or !found\nfor a single pokemon just enter its name\nfor multiple pokemon put them in square brackets [ ]\nfollow it with the location.\n\nFor expample:\n!Found [Pikachu Squirtle Zubat] Valhalla\nor\n!c Pikachu Charnwood\n\n**Location Search:**\nFind what pokemon can be found in an area by entering:\n!location **area**\n\n**Server status:**\n!status\n\n**Current Canberra Temperature:**\n!temp\n\nMore to come! If you have any feature requests message @Mirokoth'
 
         # Public
         if arguments and arguments[0].upper() == "US":
@@ -255,6 +255,29 @@ async def on_message(message):
             if _was_not_found == False:
                 await client.edit_message(tmp_msg, 'Added {} to {}'.format(location,_found))
 
+     #Command: Search for pokemon via location
+    if command == "LOCATION":
+        print('{} is smashing the DB, reverse searching for {}'.format(message.author,message.content))
+        _term = message.content.upper().replace('!LOCATION', '')
+        _output = ''
+        _pokemon = json.load(open(PATH_POKEMON_DB))
+        _pokecount = 0
+        for _name in _pokemon:
+            _pokecount =+ 1
+            _poke_data = _pokemon[_name]
+            if type(_poke_data['location']) is str:
+                if _term in str(' ' + _poke_data['location']).upper():
+                    _output += '{} - {}\n'.format(_name,_poke_data['location'])
+            for location in _poke_data['location']:
+                _caps_location = str(' ' + location.upper())
+                if _term in _caps_location:
+                    _output += '{} - {}\n'.format(_name,location)
+        if len(_output) < 1:
+            await client.send_message(message.author, 'Sorry, nothing found for {}.\nPlease refine search term'.format(_term))
+        else:
+            await client.send_message(message.author, 'You can find the following pokemon with **{}** in the location(s)```{}```'.format(_term,_output))
+            await client.send_message(message.channel, ':email:')
+
     # Command: Get a role ID form a role mention
     if command == "ROLEID":
         # grab first role mentioned
@@ -349,21 +372,20 @@ async def on_message(message):
                 await client.send_message(message.channel, 'Welcome to team {}!'.format(assignRole.name))
 
     # Command: Sing
-    if command == "SING":
+    if command == "SING" and isAdmin(message.server.id, message.author.id):
         theme = ['I', 'want', 'to', 'be', 'the', 'very', 'best', 'like', 'no', 'one', 'ever', 'was', ':blush:']
         sing = await client.send_message(message.channel, '*clears throat*')
         for lyric in theme:
             await client.edit_message(sing, lyric)
 
     # Command: Restart server
-    if command == "RESTART":
-        # Authorise command
-        if isAdmin(message.server.id, message.author.id):
-            await client.send_message(message.channel, '<@{}> is pushing my buttons..'.format(message.author.id))
-            os.execv(sys.executable, [config.PYTHON_CMD] + sys.argv)
+    if command == "RESTART" and isAdmin(message.server.id, message.author.id):
+        await client.send_message(message.channel, '<@{}> is pushing my buttons..'.format(message.author.id))
+        os.execv(sys.executable, [config.PYTHON_CMD] + sys.argv)
 
-    #Commadn: Kill server
-    if command == "DIE":
+    #Command: Kill server
+    if command == "DIE" and isAdmin(message.server.id, message.author.id):
+        await client.send_message(message.channel, '<@{}> is killing me..'.format(message.author.id))
         quit()
 
 # Start Discord client
