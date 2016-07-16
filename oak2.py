@@ -105,7 +105,7 @@ async def on_message(message):
         # Private
         else:
             sendTo = message.author
-            await client.send_message(message.channel, ':envelope:')
+            await client.send_message(message.channel, ':incoming_envelope:')
         await client.send_message(sendTo, '{}'.format(helpMsg))
 
     # Command: Find pokemon
@@ -255,7 +255,7 @@ async def on_message(message):
             if _was_not_found == False:
                 await client.edit_message(tmp_msg, 'Added {} to {}'.format(location,_found))
 
-     #Command: Search for pokemon via location
+     # Command: Search for pokemon via location
     if command == "LOCATION":
         print('{} is smashing the DB, reverse searching for {}'.format(message.author,message.content))
         _term = message.content.upper().replace('!LOCATION', '')
@@ -276,7 +276,7 @@ async def on_message(message):
             await client.send_message(message.author, 'Sorry, nothing found for {}.\nPlease refine search term'.format(_term))
         else:
             await client.send_message(message.author, 'You can find the following pokemon with **{}** in the location(s)```{}```'.format(_term,_output))
-            await client.send_message(message.channel, ':email:')
+            await client.send_message(message.channel, 'Check your mailbox kiddo! :incoming_envelope:')
 
     # Command: Get a role ID form a role mention
     if command == "ROLEID":
