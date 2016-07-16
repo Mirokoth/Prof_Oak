@@ -24,7 +24,6 @@ Created to help organise the Canberra Pokemon GO Discord channel
 
 ## To Do
 * Better Weather API
-* Reverse pokemon search - Search via location
 * Events
-* Seperate file for !found - Output who updated what
 * !found egg hatches
+* add !l as a switch for location
