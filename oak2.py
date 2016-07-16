@@ -321,11 +321,11 @@ async def on_message(message):
             tmp_msg = await client.send_message(message.channel, 'This will take a moment..')
             # GET from status website
             try:
-                html = requests.get('http://www.mmoserverstatus.com/pokemon_go', timeout=120)
+                html = requests.get('http://www.mmoserverstatus.com/pokemon_go', timeout=30)
             # GET timeout
-            except TimeOut as e:
+            except requests.exceptions.ConnectTimeout as e:
                 # Error handling: on site timeout advise server is most likely down
-                await client.send_message(message.channel, 'Site did not respond in time, server is most likely down.')
+                await client.send_message(message.channel, 'Server status page did not respond within 30 seconds. Server most likely down.')
             # Load HTML content into parser
             soup = BeautifulSoup(html.content, "html.parser")
             statuses = soup.find_all("li", "white")
