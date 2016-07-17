@@ -30,3 +30,5 @@ Created to help organise the Canberra Pokemon GO Discord channel
 * Seperate modules for PGO commands and generic bot commands
 * PGO Specific pokedex - https://github.com/PokemonGOAPI/PokemonDataGraber/blob/master/output.json
 * Better server status. pgorelease.nianticlabs.com/plfe looks good but unsure how to pull only australia data
+* Add filter to !found for 0% catch pokemon and 'fucking everywhere' pokemon
+* If !find result includes < 1 secondery data, exclude "and can be obtained by"
