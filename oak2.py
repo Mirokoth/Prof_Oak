@@ -343,7 +343,7 @@ async def on_message(message):
             tmp_msg = await client.send_message(message.channel, 'This will take a moment..')
             # GET from status website
             try:
-                html = await requests.get('http://www.mmoserverstatus.com/pokemon_go', timeout=10)
+                html = requests.get('http://www.mmoserverstatus.com/pokemon_go', timeout=10)
                 # Load HTML content into parser
                 soup = BeautifulSoup(html.content, "html.parser")
                 statuses = soup.find_all("li", "white")
