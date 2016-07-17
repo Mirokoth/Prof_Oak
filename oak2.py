@@ -63,6 +63,30 @@ def command_log(author, author_id, command):
         log_output.close()
     print('Updated command log')
 
+# Clean input
+def sanitiseCmd(message):
+    # Remove white space sequences
+    message = ' '.join(message.split())
+    # Grab words
+    words = message.split(' ')
+    return words
+
+# Get command
+def getCmd(message):
+    words = sanitiseCmd(message)
+    # Extract command
+    command = words[0][1:].upper()
+    return command
+
+# Get arguments
+def getArgs(message):
+    words = sanitiseCmd(message)
+    # Extract arguments
+    arguments = words[1:]
+    if len(arguments) == 0:
+        return False
+    return arguments
+
 # --------------
 # Event Handlers
 # --------------
@@ -99,20 +123,13 @@ async def on_message(message):
     # Check if message is a command
     if isCmd(message.content):
         # Log command to console
-        command = message.content.split(' ')[0][1:].upper()
+        command = getCmd(message.content)
+        arguments = getArgs(message.content)
         print("{} ({}) used the following command: {}".format(message.author.name, message.author.id, command))
         # Send message of to be Logged
         command_log(message.author.name, message.author.id, message.content)
-
     else:
         return
-
-    # Extract arguments
-    arguments = message.content.split(' ')[1:]
-    if len(arguments) == 0:
-        arguments = False
-    # await client.send_message(message.channel, "command: {}".format(command))
-    # await client.send_message(message.channel, "arguments: {}".format(arguments))
 
     # Command: Help
     if command == "HELP":
