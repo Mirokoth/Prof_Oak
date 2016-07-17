@@ -176,7 +176,12 @@ async def on_message(message):
                 if type(pokemons['location']) is str:
                     location += pokemons['location']
                 # Send result
-                await client.edit_message(tmp_msg, '**{}** found at the following location(s):\n```\n{}```\nAnd can be obtained by:\n```\n{}\n```'.format(pokemon, location, pokemons['alternative']))
+                # Alt field not empty
+                if pokemons['alternative'] != "":
+                    await client.edit_message(tmp_msg, '**{}** found at the following location(s):\n```\n{}```\nAnd can be obtained by:\n```\n{}\n```'.format(pokemon, location, pokemons['alternative']))
+                # Alt field empty
+                else:
+                    await client.edit_message(tmp_msg, '**{}** found at the following location(s):\n```\n{}```'.format(pokemon, location))
             else:
                 print("No pokemons")
 
