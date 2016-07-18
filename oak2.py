@@ -183,13 +183,13 @@ async def on_message(message):
             # Pokemon is found
             if pokemons:
                 location = ''
-                # Multiple locations in an array
+                # Multiple existing locations in an array
                 # NOTE: This should be replaced so that they're always in an array
                 if type(pokemons['location']) is not str:
                     for loc in pokemons['location']:
                         location += loc
                         location += '\n'
-                # Single location
+                # Single existing location
                 if type(pokemons['location']) is str:
                     location += pokemons['location']
                 # Send result
@@ -286,47 +286,48 @@ async def on_message(message):
      # Command: Search for pokemon via location
     if command == "LOCATION" or command == "L":
 
-        is_global = False
+        is_public = False
         # No arguments
         if not arguments:
             await client.send_message(message.channel, "Please specify a location, e.g. {}location Woden".format(BOT_CMD_SYMBOL))
         # Search publically (in summoned channel)
         elif arguments and arguments[0].upper() == "US":
             sendTo = message.channel
-            pokemon = arguments[1].title()
-            is_global = True
+            searchTerms = arguments[1].title() # array of separate search terms
+            is_public = True
         # Search privately (direct message)
         else:
             sendTo = message.author
-            pokemon = arguments[0].title()
-            #await client.send_message(message.channel, 'Check your mailbox kiddo! :incoming_envelope:')
+            searchTerms = arguments[0].title() # array of separate search terms
 
         print('{} is smashing the DB, reverse searching for {}'.format(message.author,message.content))
-        if is_global == True:
-            _term = message.content.upper().replace('!LOCATION US', '')
+
+        locations = ''
+        pokemons = json.load(open(PATH_POKEMON_DB))
+        # Trawl over every pokemon
+        for pokemon in pokemons:
+            mon = pokemons[pokemon]
+            # Trawl over every location
+            # Multiple existing locations in an array
+            # NOTE: This should be replaced so that they're always in an array
+            if type(mon['location']) is str:
+                # Found
+                if fullSearch.upper() in str(mon['location']).upper():
+                    locations += '{} - {}\n'.format(pokemon, mon['location'])
+            # Single existing location
+            for loc in mon['location']:
+                term = str(loc.upper())
+                # Found
+                if fullSearch.upper() in term:
+                    locations += '{} - {}\n'.format(pokemon, loc)
+
+        # No location found
+        if len(locations) < 1:
+            await client.send_message(sendTo, 'Sorry, nothing found for {}.\nPlease refine search term.'.format(fullSearch))
+        # Location found
         else:
-            _term = message.content.upper().replace('!LOCATION', '')
-        # Checks if there is a space at the end of the search term and removes it
-        if _term[-1] == ' ':
-            _term = _term[0:-2]
-        _output = ''
-        _pokemon = json.load(open(PATH_POKEMON_DB))
-        _pokecount = 0
-        for _name in _pokemon:
-            _pokecount =+ 1
-            _poke_data = _pokemon[_name]
-            if type(_poke_data['location']) is str:
-                if _term in str(' ' + _poke_data['location']).upper():
-                    _output += '{} - {}\n'.format(_name,_poke_data['location'])
-            for location in _poke_data['location']:
-                _caps_location = str(' ' + location.upper())
-                if _term in _caps_location:
-                    _output += '{} - {}\n'.format(_name,location)
-        if len(_output) < 1:
-            await client.send_message(sendTo, 'Sorry, nothing found for {}.\nPlease refine search term'.format(_term))
-        else:
-            await client.send_message(sendTo, 'You can find the following pokemon with **{}** in the location(s)```{}```'.format(_term,_output))
-            if is_global == True:
+            await client.send_message(sendTo, 'You can find the following pokemon with **{}** in the location(s)```{}```'.format(fullSearch, locations))
+            if is_public == True:
                 pass
             else:
                 await client.send_message(message.channel, 'Check your mailbox kiddo! :incoming_envelope:')
